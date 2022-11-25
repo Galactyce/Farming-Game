@@ -41,6 +41,13 @@ GameWorld.prototype.update = function (delta) {
       tiles.gameObjects[i].visible = true
     }
   }
+  if (powerupjs.Keyboard.pressed(70)) {
+    this.map.mode = 'nature_deco_editing'
+    var tiles = this.map.areas[this.map.currentAreaIndex].find(ID.tiles);
+    for (var i=0; i<tiles.gameObjects.length; i++) {
+      tiles.gameObjects[i].visible = true
+    }
+  }
   if (powerupjs.Keyboard.pressed(68)) {
     this.map.mode = 'terrain_editing'
   }

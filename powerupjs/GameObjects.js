@@ -181,6 +181,8 @@ var powerupjs = (function (powerupjs) {
 
   GameObjectList.prototype.update = function (delta) {
     for (var i = 0; i < this.gameObjects.length; i++) {
+      if (this.at(i) !== null && this.at(i) !== undefined)
+
       this.gameObjects[i].update(delta);
     }
   };
@@ -232,9 +234,8 @@ var powerupjs = (function (powerupjs) {
   };
 
   GameObjectList.prototype.find = function (id) {
-    for (var i = 0, l = this.gameObjects.length - 1; i < l; ++i) {
+    for (var i = 0, l = this.gameObjects.length; i < l; ++i) {
       if (this.gameObjects[i] === undefined || this.gameObjects[i] === null) continue
-
       if (this.gameObjects[i].id === id) return this.gameObjects[i];
       if (
         this.gameObjects[i] instanceof powerupjs.GameObjectList ||

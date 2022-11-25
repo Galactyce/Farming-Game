@@ -39,7 +39,6 @@ BoundaryEditor.prototype.update = function (delta) {
         this.tilePosition.x / this.cellWidth,
         this.tilePosition.y / this.cellHeight
       );
-      this.save();
     } else if (this.mode === "erase") {
       for (var i=0; i<feild.gameObjects.length; i++) {
         var boundary = feild.gameObjects[i];
@@ -51,6 +50,8 @@ BoundaryEditor.prototype.update = function (delta) {
         }
       }
     }
+    this.save();
+
   }
 };
 
@@ -63,7 +64,6 @@ BoundaryEditor.prototype.save = function () {
     for (var i = 0, l = tiles.gameObjects.length; i < l; ++i) {
       if (tiles.gameObjects[i] === undefined || tiles.gameObjects[i] === null)
         continue;
-      console.log(tiles);
       var tile = tiles.gameObjects[i];
       var string = tile.index.x + "/" + tile.index.y + ",";
       fullString += string;

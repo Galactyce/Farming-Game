@@ -30,10 +30,22 @@ powerupjs.Game.loadAssets = function () {
       front: loadSprite("character_main_walk_front@7.png"),
       back: loadSprite("character_main_walk_back@7.png"),
       right: loadSprite("character_main_walk_right@7.png"),
-      left: loadSprite("character_main_walk_left@7.png")
+      left: loadSprite("character_main_walk_left@7.png"),
     },
   };
+
+  sprites.nature = {
+    oak_tree: {
+      shake: loadSprite("tree_summer_oak_shake@4.png"),
+      idle: loadSprite("tree_summer_oak_idle.png"),
+    },
+    pine_tree: {
+      shake: loadSprite("tree_summer_pine_shake@4.png"),
+      idle: loadSprite("tree_summer_pine_idle.png"),
+    },
+  };
+
   sprites.extras = {
-    'boundary': loadSprite('boundary.png')
-  }
+    boundary: loadSprite("boundary.png"),
+  };
 };

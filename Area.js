@@ -10,6 +10,8 @@ function Area(index) {
   this.add(new FrontTileField(index))
   this.add(new TerrainEditor(index))
   this.add(new BoundaryEditor(index))
+  this.add(new NatureDecoEditor(index))
+
 
 }
 
