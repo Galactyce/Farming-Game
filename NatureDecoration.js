@@ -18,9 +18,13 @@ NatureDecoration.prototype.update = function (delta) {
   powerupjs.AnimatedGameObject.prototype.update.call(this, delta);
   var feild = this.parent;
   var player = feild.find(ID.player);
+  var switchPoint = this.position.y
+  if (this.spriteType === 'oak_tree' || this.spriteType === 'pine_tree') {
+    switchPoint = this.position.y + 40
+  }
+ 
   if (player !== null) {
-    console.log(player.layer)
-    if (player.position.y > this.position.y + 10) {
+    if (player.position.y > switchPoint) {
       this.layer = ID.layer_background
     }
     else {

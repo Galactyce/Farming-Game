@@ -1,0 +1,10 @@
+A: Playing mode
+S: Boundary editing
+D: Terrain editing
+F: Tree editing
+G: Flower editing
+
+For S, F G: 
+--------------
+B: draw
+E: erase

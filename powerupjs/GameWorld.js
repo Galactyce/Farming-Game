@@ -1,3 +1,13 @@
+
+var mapLayout = [
+  1, 2, 3, 4, 5, 6,
+  7, 8, 9, 10, 11, 12,
+  13, 14, 15, 16, 17, 18,
+  19, 20, 21, 22, 23, 24,
+  25, 26, 27, 28, 29, 30
+];
+
+
 var ID = {};
 
 ID.layer_background = 1;
@@ -19,8 +29,11 @@ ID.boundaries = 6
 
 function GameWorld(layer) {
   powerupjs.GameObjectList.call(this, layer);
+
   this.map = new Map();
+  var area = this.map.areas[this.map.currentAreaIndex];
   this.add(this.map);
+
 }
 
 GameWorld.prototype = Object.create(powerupjs.GameObjectList.prototype);
@@ -48,8 +61,45 @@ GameWorld.prototype.update = function (delta) {
       tiles.gameObjects[i].visible = true
     }
   }
+  if (powerupjs.Keyboard.pressed(71)) {
+    this.map.mode = 'flower_deco_editing'
+    var tiles = this.map.areas[this.map.currentAreaIndex].find(ID.tiles);
+    for (var i=0; i<tiles.gameObjects.length; i++) {
+      tiles.gameObjects[i].visible = true
+    }
+  }
+  if (powerupjs.Keyboard.pressed(72)) {
+    this.map.mode = 'wall_deco_editing'
+    var tiles = this.map.areas[this.map.currentAreaIndex].find(ID.tiles);
+    for (var i=0; i<tiles.gameObjects.length; i++) {
+      tiles.gameObjects[i].visible = true
+    }
+  }
   if (powerupjs.Keyboard.pressed(68)) {
     this.map.mode = 'terrain_editing'
+  }
+
+  if (powerupjs.Keyboard.down(16) && powerupjs.Keyboard.pressed(8)) {
+    if (confirm("Clear local storage? (This will delete everything!)")) {
+      localStorage.clear();
+      window.location.reload()
+    }
+  }
+
+  if (powerupjs.Keyboard.pressed(107)) {
+    if (this.map.currentAreaIndex === this.map.areas.length)
+    this.map.currentAreaIndex++
+    this.map.areas[this.map.currentAreaIndex].player.position = this.map.playerPosition
+    this.map.areas[this.map.currentAreaIndex].player.lastDirection = this.map.playerAnimation
+   
+  }
+  if (powerupjs.Keyboard.pressed(109)) {
+    if (this.map.currentAreaIndex === 0) return;
+
+    this.map.currentAreaIndex--
+    this.map.areas[this.map.currentAreaIndex].player.position = this.map.playerPosition
+    this.map.areas[this.map.currentAreaIndex].player.lastDirection = this.map.playerAnimation
+
   }
 };
 

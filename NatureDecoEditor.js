@@ -38,7 +38,7 @@ NatureDecoEditor.prototype.update = function (delta) {
   if (powerupjs.Keyboard.pressed(39)) {
     this.currentTypeIndex--;
     if (this.currentTypeIndex < 0) {
-      this.currentTypeIndex = this.types.length;
+      this.currentTypeIndex = this.types.length - 1;
     }
   }
 

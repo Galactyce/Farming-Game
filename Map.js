@@ -1,19 +1,15 @@
 function Map() {
   powerupjs.GameObjectList.call(this, ID.layer_objects, ID.map);
   this.areas = new Array()
-  this.startingArea = 0
-  for (var i=0; i<3; i++) {
+  this.startingArea = 15
+  for (var i=0; i<mapLayout.length; i++) {
     var area = new Area(i)
     this.areas.push(area)
   }
-  var player = new Player();
-  var area = this.areas[this.startingArea];
-  console.log(area.gameObjects)
-
-  var feild = area.find(ID.objects)
-  feild.add(player)
-  this.mode = 'boundary_editing'
-  this.currentAreaIndex = 0
+  this.playerAnimation = undefined
+  this.playerPosition = new powerupjs.Vector2(0, 0)
+  this.mode = 'playing'
+  this.currentAreaIndex = 15
 }
 
 Map.prototype = Object.create(powerupjs.GameObjectList.prototype)

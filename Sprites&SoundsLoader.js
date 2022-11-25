@@ -43,7 +43,31 @@ powerupjs.Game.loadAssets = function () {
       shake: loadSprite("tree_summer_pine_shake@4.png"),
       idle: loadSprite("tree_summer_pine_idle.png"),
     },
+    green_bush: {
+      idle: loadSprite("bush_summer_green.png")
+    },
+    darkgreen_bush: {
+      idle: loadSprite("bush_summer_darkgreen.png")
+    },
+    rock1: {
+      idle: loadSprite("rock1.png")
+    },
+    rock2: {
+      idle: loadSprite("rock2.png")
+    }
   };
+
+  sprites.flowers = {
+    'tulips': loadSprite('flowers_tulips@7.png'),
+    'roses': loadSprite('flowers_roses@7.png'),
+    'misc': loadSprite("flowers_misc@7.png"),
+    'weeds': loadSprite('weeds@2.png')
+  }
+
+  sprites.walls = {
+    'oak_fence': loadSprite("oak_fence@17.png"),
+    'stone_wall': loadSprite('stone_wall@15.png')
+  }
 
   sprites.extras = {
     boundary: loadSprite("boundary.png"),

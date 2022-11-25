@@ -59,7 +59,7 @@ TerrainEditor.prototype.update = function (delta) {
       this.currentTypeIndex = this.terrainTypes.length - 1
     }
   }
-  if (powerupjs.Mouse._left.pressed) {
+  if (powerupjs.Mouse._left.pressed || powerupjs.Keyboard.down(186)) {
     var area = this.parent;
     if (this.currentLayer === "back") {
       var tiles = area.find(ID.tiles);
@@ -99,7 +99,7 @@ TerrainEditor.prototype.update = function (delta) {
 
 TerrainEditor.prototype.save = function() {
 var all = ""
-  for (var k = 0; k < 3; k++) {
+  for (var k = 0; k < powerupjs.Game.gameWorld.map.areas.length; k++) {
     var area = powerupjs.Game.gameWorld.map.areas[k]
     var tiles = area.find(ID.tiles);
   var fullString = "|" + k + "|";
@@ -113,7 +113,7 @@ var all = ""
 localStorage.terrainTiles = all
 
 var all = ""
-  for (var k = 0; k < 3; k++) {
+  for (var k = 0; k < powerupjs.Game.gameWorld.map.areas.length; k++) {
     var area = powerupjs.Game.gameWorld.map.areas[k]
     var tiles = area.find(ID.front_tiles);
   var fullString = "|" + k + "|";
