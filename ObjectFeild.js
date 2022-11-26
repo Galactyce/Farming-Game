@@ -1,10 +1,26 @@
 function ObjectFeild(areaIndex) {
   powerupjs.GameObjectList.call(this, ID.layer_objects, ID.objects);
   this.areaIndex = areaIndex;
+  // for (var i=0; i<2; i++) {
+    
+  //   var items = [];
+  //   for (var k in sprites.carry_items) {
+  //     items.push(k)
+  //   } 
+  //   var randItem = Math.floor(Math.random() * items.length)
+  // var item = new DroppedItem(items[randItem])
+  // item.position = new powerupjs.Vector2(Math.random() * 700, Math.random() * 700);
+  // this.add(item)
+  // }
   this.loadObjects();
 }
 
 ObjectFeild.prototype = Object.create(powerupjs.GameObjectList.prototype);
+
+ObjectFeild.prototype.update = function(delta) {
+  powerupjs.GameObjectList.prototype.update.call(this, delta);
+  
+}
 
 ObjectFeild.prototype.loadObjects = function () {
   if (localStorage.objects !== undefined) {
@@ -16,7 +32,6 @@ ObjectFeild.prototype.loadObjects = function () {
       var code = codeArray[i].split("/");
       if (code[0] === "undefined") continue;
       var type = code[0];
-      console.log(code);
       if (type === "nature") {
         var sprite = code[1];
         var x = parseInt(code[2]);
@@ -25,7 +40,6 @@ ObjectFeild.prototype.loadObjects = function () {
         t.position = new powerupjs.Vector2(x * 16, y * 16);
         this.add(t);
       } else if (type === "flower") {
-        console.log(code)
         var sprite = code[1];
         var sheetIndex = parseInt(code[2]);
         var x = parseInt(code[3]);
@@ -35,7 +49,6 @@ ObjectFeild.prototype.loadObjects = function () {
         this.add(t);
       }
       else if (type === 'wall') {
-        console.log(code)
         var sprite = code[1];
         var sheetIndex = parseInt(code[2]);
         var x = parseInt(code[3]);

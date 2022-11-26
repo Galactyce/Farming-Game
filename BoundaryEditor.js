@@ -33,7 +33,6 @@ BoundaryEditor.prototype.update = function (delta) {
           this.tilePosition.y / this.cellHeight
         )
       );
-      console.log(boundary);
       feild.addAt(
         boundary,
         this.tilePosition.x / this.cellWidth,
@@ -43,7 +42,6 @@ BoundaryEditor.prototype.update = function (delta) {
       for (var i=0; i<feild.gameObjects.length; i++) {
         var boundary = feild.gameObjects[i];
         if (boundary === undefined) continue
-        console.log(boundary.boundingBox)
         if (boundary.boundingBox.contains(powerupjs.Mouse._position)) {
           feild.gameObjects[i] = undefined;
           

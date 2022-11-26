@@ -20,6 +20,7 @@ Object.defineProperty(Canvas_Singleton.prototype, "scale",
       get: function () {
           return new powerupjs.Vector2(this.canvas.width / powerupjs.Game.size.x,
               this.canvas.height / powerupjs.Game.size.y);
+              
       }
   });
 

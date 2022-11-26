@@ -219,9 +219,7 @@ var powerupjs = (function (powerupjs) {
     this.gameObjects.push(gameobject);
 
     gameobject.parent = this;
-    this.gameObjects.sort(function (a, b) {
-      return a.layer - b.layer;
-    });
+    
   };
 
   GameObjectList.prototype.remove = function (gameobject) {

@@ -7,8 +7,14 @@ function NatureDecoEditor(areaIndex) {
   for (let i in sprites.nature) {
     this.types.push(i)
   }
+  this.fruitTypes = new Array();
+  for (let i in sprites.fruits) {
+    this.fruitTypes.push(i)
+  }
   this.currentTypeIndex = 0
-  console.log(this.types)
+  this.fruitSelected = false;
+  this.currentFruitIndex = 0
+  localStorage.clear()
   this.mode = "draw";
 }
 
@@ -28,6 +34,32 @@ NatureDecoEditor.prototype.update = function (delta) {
   if (powerupjs.Keyboard.pressed(69)) {
     this.mode = "erase";
   }
+  if (powerupjs.Keyboard.pressed(49)) {
+    this.fruitSelected = false
+  }
+  if (powerupjs.Keyboard.pressed(50)) {
+    this.fruitSelected = true
+  }
+  var fruits = new Array();
+  for (var i in sprites.fruits) {
+    fruits.push(i)
+  };
+
+  if (powerupjs.Keyboard.pressed(38)) {
+    this.currentFruitIndex++
+    if (this.currentFruitIndex > fruits.length - 1) {
+      this.currentFruitIndex = 0
+    }
+  }
+
+  if (powerupjs.Keyboard.pressed(40)) {
+    this.currentFruitIndex--
+    if (this.currentFruitIndex < 0) {
+      this.currentFruitIndex = fruits.length - 1
+    }
+  }
+
+
   if (powerupjs.Keyboard.pressed(37)) {
     this.currentTypeIndex++;
     if (this.currentTypeIndex > this.types.length - 1) {
@@ -46,13 +78,29 @@ NatureDecoEditor.prototype.update = function (delta) {
   var feild = area.find(ID.objects);
   if (powerupjs.Mouse._left.pressed) {
     if (this.mode === "draw") {
+      if (this.fruitSelected) {
       var decoration = new NatureDecoration(
           this.types[this.currentTypeIndex],
           new powerupjs.Vector2(
             this.tilePosition.x / this.cellWidth,
-            this.tilePosition.y / this.cellHeight
-          )
-      );
+            this.tilePosition.y / this.cellHeight,
+          ),
+          this.tilePosition,
+          this.fruitTypes[this.currentFruitIndex]
+      )
+      }
+      else {
+        var decoration = new NatureDecoration(
+          this.types[this.currentTypeIndex],
+          new powerupjs.Vector2(
+            this.tilePosition.x / this.cellWidth,
+            this.tilePosition.y / this.cellHeight,
+          ),
+          this.tilePosition,
+          undefined
+      )
+      }
+   
       decoration.position = new powerupjs.Vector2(this.tilePosition.x, this.tilePosition.y)
       feild.add(
         decoration
@@ -62,7 +110,6 @@ NatureDecoEditor.prototype.update = function (delta) {
       for (var i=0; i<feild.gameObjects.length; i++) {
         var decoration = feild.gameObjects[i];
         if (decoration === undefined) continue
-        console.log(decoration.boundingBox)
         if (decoration.boundingBox.contains(powerupjs.Mouse._position)) {
           feild.gameObjects[i] = undefined;
           
@@ -83,7 +130,6 @@ NatureDecoEditor.prototype.save = function () {
         if (decorations.gameObjects[i] === undefined || decorations.gameObjects[i] === null)
           continue;
         var object = decorations.gameObjects[i];
-        console.log(object)
         if (object.type === 'nature') {
         var string = object.type + "/" + object.spriteType + "/" + object.index.x + "/" + object.index.y + ",";
         }
@@ -112,5 +158,24 @@ NatureDecoEditor.prototype.draw = function () {
     );
     t.position = this.tilePosition;
     t.draw();
+
+    if (this.fruitSelected === true) {
+      var fruits = new Array();
+      for (var i in sprites.fruits) {
+        fruits.push(i)
+      };
+      var currentFruit = fruits[this.currentFruitIndex];
+      var fruit1 = new powerupjs.SpriteGameObject(sprites.fruits[currentFruit], 1, 0, ID.layer_overlays);
+      fruit1.position = new powerupjs.Vector2(this.tilePosition.x + 20, this.tilePosition.y + 20);
+      fruit1.draw()
+
+      var fruit2 = new powerupjs.SpriteGameObject(sprites.fruits[currentFruit], 1, 0, ID.layer_overlays);
+      fruit2.position = new powerupjs.Vector2(this.tilePosition.x, this.tilePosition.y + 10);
+      fruit2.draw()
+
+      var fruit3 = new powerupjs.SpriteGameObject(sprites.fruits[currentFruit], 1, 0, ID.layer_overlays);
+      fruit3.position = new powerupjs.Vector2(this.tilePosition.x + 40, this.tilePosition.y + 10);
+      fruit3.draw()
+    }
   }
 };

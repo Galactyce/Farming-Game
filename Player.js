@@ -29,7 +29,6 @@ function Player() {
     true,
     0.08
   );
-  
 
   this.position = new powerupjs.Vector2(200, 300);
 }
@@ -38,7 +37,11 @@ Player.prototype = Object.create(powerupjs.AnimatedGameObject.prototype);
 
 Player.prototype.update = function (delta) {
   powerupjs.AnimatedGameObject.prototype.update.call(this, delta);
-  if (powerupjs.Game.gameWorld.map.mode !== "playing") return;
+  if (
+    powerupjs.Game.gameWorld.map.mode !== "playing" ||
+    powerupjs.Game.gameWorld.inventory.open
+  )
+    return;
   if (powerupjs.Keyboard.down(38)) {
     if (this.velocity.x === 0) this.playAnimation("run_back");
     this.lastDirection = "back";
@@ -68,6 +71,37 @@ Player.prototype.update = function (delta) {
     if (this.lastDirection === "left") this.playAnimation("idle_left");
   }
 
+  var objects = powerupjs.Game.gameWorld.map.areas[
+    powerupjs.Game.gameWorld.map.currentAreaIndex
+  ].find(ID.objects);
+
+  for (var i = 0; i < objects.listLength; i++) {
+    var object = objects.at(i);
+    var inventory = powerupjs.Game.gameWorld.inventory;
+
+    if (
+      object.type === "dropped_item" &&
+      object.velocity.y === 0 &&
+      object.velocity.x === 0 &&
+      this.boundingBox.intersects(object.boundingBox) &&
+      object.visible &&
+      inventory.itemGrid.gameObjects.length < 27
+    ) {
+      if (powerupjs.Keyboard.pressed(32)) {
+        object.visible = false;
+        inventory.itemGrid.add(
+          new powerupjs.SpriteGameObject(
+            sprites.items[object.sprite_type],
+            1,
+            0,
+            ID.layer_overlays
+          )
+        );
+        break;
+      }
+    }
+  }
+
   var bounds = powerupjs.Game.gameWorld.map.areas[
     powerupjs.Game.gameWorld.map.currentAreaIndex
   ].find(ID.boundaries);
@@ -81,7 +115,7 @@ Player.prototype.update = function (delta) {
       this.boundingBox.height
     );
     boundingBox.y = this.boundingBox.y + 20;
-    boundingBox.height = this.boundingBox.height - 20
+    boundingBox.height = this.boundingBox.height - 20;
     if (boundingBox.intersects(boundary.boundingBox)) {
       var depth = boundingBox.calculateIntersectionDepth(boundary.boundingBox);
       if (Math.abs(depth.y) > Math.abs(depth.x)) {
@@ -92,42 +126,41 @@ Player.prototype.update = function (delta) {
     }
   }
 
-  var map = powerupjs.Game.gameWorld.map
+  var map = powerupjs.Game.gameWorld.map;
   if (this.position.y < 0) {
     if (map.currentAreaIndex > 6) {
-     map.currentAreaIndex -= 6
-    this.position.y = 700
-    map.areas[map.currentAreaIndex].player.position = map.playerPosition
-    map.areas[map.currentAreaIndex].player.lastDirection = map.playerAnimation
-    }
-    else {
-      this.position.y = 10
+      map.currentAreaIndex -= 6;
+      this.position.y = 700;
+      map.areas[map.currentAreaIndex].player.position = map.playerPosition;
+      map.areas[map.currentAreaIndex].player.lastDirection =
+        map.playerAnimation;
+    } else {
+      this.position.y = 10;
     }
   }
   if (this.position.y > 730) {
-    map.currentAreaIndex += 6
-    this.position.y = 20
-    map.areas[map.currentAreaIndex].player.position = map.playerPosition
-    map.areas[map.currentAreaIndex].player.lastDirection = map.playerAnimation
-
+    map.currentAreaIndex += 6;
+    this.position.y = 20;
+    map.areas[map.currentAreaIndex].player.position = map.playerPosition;
+    map.areas[map.currentAreaIndex].player.lastDirection = map.playerAnimation;
   }
   if (this.position.x > 1440) {
     map.currentAreaIndex += 1;
-    this.position.x = 60
-    map.areas[map.currentAreaIndex].player.position = map.playerPosition
-    map.areas[map.currentAreaIndex].player.lastDirection = map.playerAnimation
+    this.position.x = 60;
+    map.areas[map.currentAreaIndex].player.position = map.playerPosition;
+    map.areas[map.currentAreaIndex].player.lastDirection = map.playerAnimation;
   }
   if (this.position.x < 0) {
     if (map.currentAreaIndex > 0) {
-    map.currentAreaIndex -= 1;
-    this.position.x = 1400
-    map.areas[map.currentAreaIndex].player.position = map.playerPosition
-    map.areas[map.currentAreaIndex].player.lastDirection = map.playerAnimation
+      map.currentAreaIndex -= 1;
+      this.position.x = 1400;
+      map.areas[map.currentAreaIndex].player.position = map.playerPosition;
+      map.areas[map.currentAreaIndex].player.lastDirection =
+        map.playerAnimation;
+    } else {
+      this.position.x = 10;
+    }
   }
-  else {
-    this.position.x = 10
-  }
-  }
-  powerupjs.Game.gameWorld.map.playerAnimation = this.lastDirection
-  powerupjs.Game.gameWorld.map.playerPosition = this.position.copy()
+  powerupjs.Game.gameWorld.map.playerAnimation = this.lastDirection;
+  powerupjs.Game.gameWorld.map.playerPosition = this.position.copy();
 };

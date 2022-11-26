@@ -9,7 +9,6 @@ function FlowerEditor(areaIndex) {
   }
   this.currentTypeIndex = 0;
   this.currentSheetIndex = 0;
-  console.log(this.types);
   this.mode = "draw";
 }
 
@@ -79,7 +78,6 @@ FlowerEditor.prototype.update = function (delta) {
       for (var i = 0; i < feild.gameObjects.length; i++) {
         var decoration = feild.gameObjects[i];
         if (decoration === undefined) continue;
-        console.log(decoration.boundingBox);
         if (decoration.boundingBox.contains(powerupjs.Mouse._position)) {
           feild.gameObjects[i] = undefined;
         }
@@ -102,7 +100,6 @@ FlowerEditor.prototype.save = function () {
       )
         continue;
       var object = decorations.gameObjects[i];
-      console.log(object);
       if (object.type === "nature") {
         var string =
           object.type +
@@ -130,7 +127,6 @@ FlowerEditor.prototype.save = function () {
       }
       fullString += string;
     }
-    console.log(fullString)
 
     all += fullString;
   }

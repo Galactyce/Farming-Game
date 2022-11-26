@@ -25,21 +25,36 @@ ID.tiles = 2;
 ID.front_tiles = 3;
 ID.player = 4;
 ID.objects = 5;
-ID.boundaries = 6
+ID.boundaries = 6;
+ID.inventory = 7;
 
 function GameWorld(layer) {
   powerupjs.GameObjectList.call(this, layer);
 
   this.map = new Map();
   var area = this.map.areas[this.map.currentAreaIndex];
+  this.inventory = new Inventory();
   this.add(this.map);
 
 }
 
 GameWorld.prototype = Object.create(powerupjs.GameObjectList.prototype);
 
+GameWorld.prototype.draw = function() {
+  powerupjs.GameObjectList.prototype.draw.call(this);
+  if (this.inventory.open) {
+    this.inventory.draw()
+  }
+}
+
 GameWorld.prototype.update = function (delta) {
   powerupjs.GameObjectList.prototype.update.call(this, delta);
+  if (this.inventory.open) {
+    this.inventory.update(delta)
+  }
+  if (powerupjs.Keyboard.pressed(69) && this.map.mode === 'playing') {
+    this.inventory.open = !this.inventory.open
+  }
   if (powerupjs.Keyboard.pressed(65)) {
     this.map.mode = 'playing'
     var tiles = this.map.areas[this.map.currentAreaIndex].find(ID.tiles);

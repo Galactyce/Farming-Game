@@ -9,7 +9,6 @@ function BoundaryFeild(areaIndex) {
   this.cellWidth = 16;
   this.cellHeight = 16;
   this.areaIndex = areaIndex
-
   this.loadTiles()
 }
 
@@ -21,6 +20,7 @@ BoundaryFeild.prototype.loadTiles = function () {
     var tileCode = localStorage.boundaryTiles;
     var areaCodes = tileCode.split("|")
     var area = areaCodes[(this.areaIndex + 1) * 2]
+
     var codeArray = area.split(",");
     for (var i=0; i<codeArray.length - 1; i++) {
       var code = codeArray[i].split('/');

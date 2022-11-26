@@ -9,7 +9,6 @@ function WallEditor(areaIndex) {
   }
   this.currentTypeIndex = 0;
   this.currentSheetIndex = 0;
-  console.log(this.types);
   this.mode = "draw";
 }
 
@@ -79,7 +78,6 @@ WallEditor.prototype.update = function (delta) {
       for (var i = 0; i < feild.gameObjects.length; i++) {
         var wall = feild.gameObjects[i];
         if (wall === undefined) continue;
-        console.log(wall.boundingBox);
         if (wall.boundingBox.contains(powerupjs.Mouse._position)) {
           feild.gameObjects[i] = undefined;
         }
@@ -102,7 +100,6 @@ WallEditor.prototype.save = function () {
       )
         continue;
       var object = walls.gameObjects[i];
-      console.log(object);
       if (object.type === "nature") {
         var string =
           object.type +
@@ -144,7 +141,6 @@ WallEditor.prototype.save = function () {
       }
       fullString += string;
     }
-    console.log(fullString)
 
     all += fullString;
   }

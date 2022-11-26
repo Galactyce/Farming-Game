@@ -1,6 +1,5 @@
 function Flower(type, index, sheetIndex) {
   this.spriteType = type
-  console.log(type)
   powerupjs.SpriteGameObject.call(this, sprites.flowers[type], 1, 0, ID.layer_background);
   this.sheetIndex = sheetIndex
   this.index = index
