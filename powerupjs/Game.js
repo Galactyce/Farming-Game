@@ -46,7 +46,7 @@ Game.prototype.mainLoop = function() {
   powerupjs.Keyboard.reset()
   powerupjs.Mouse.reset()
   // if (Date.now() - timeStart > 500) console.log(Date.now() - timeStart)
-  setTimeout(powerupjs.Game.mainLoop, 1000/50)
+  setTimeout(powerupjs.Game.mainLoop, 1000/60)
 }
 
 

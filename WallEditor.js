@@ -83,70 +83,10 @@ WallEditor.prototype.update = function (delta) {
         }
       }
     }
-    this.save();
+    powerupjs.Game.gameWorld.saveObjects()
   }
 };
 
-WallEditor.prototype.save = function () {
-  var all = "";
-  for (var k = 0; k < 3; k++) {
-    var area = powerupjs.Game.gameWorld.map.areas[k];
-    var walls = area.find(ID.objects);
-    var fullString = "|" + k + "|";
-    for (var i = 0, l = walls.gameObjects.length; i < l; ++i) {
-      if (
-        walls.gameObjects[i] === undefined ||
-        walls.gameObjects[i] === null
-      )
-        continue;
-      var object = walls.gameObjects[i];
-      if (object.type === "nature") {
-        var string =
-          object.type +
-          "/" +
-          object.spriteType +
-          "/" +
-          object.index.x +
-          "/" +
-          object.index.y +
-          ",";
-      } else if (object.type === "flower") {
-        var string =
-          object.type +
-          "/" +
-          object.spriteType +
-          "/" +
-          object.sheetIndex +
-          "/" +
-          object.index.x +
-          "/" +
-          object.index.y +
-          ",";
-      }
-     else if (object.type === "wall") {
-      var string =
-        object.type +
-        "/" +
-        object.spriteType +
-        "/" +
-        object.sheetIndex +
-        "/" +
-        object.index.x +
-        "/" +
-        object.index.y +
-        ",";
-    } 
-      else {
-        var string = undefined + ",";
-      }
-      fullString += string;
-    }
-
-    all += fullString;
-  }
-
-  localStorage.objects = all;
-};
 
 WallEditor.prototype.draw = function () {
   powerupjs.GameObjectGrid.prototype.update.call(this);

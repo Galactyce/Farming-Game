@@ -12,7 +12,7 @@ function TerrainEditor(areaIndex) {
   this.currentSheetIndex = 0;
   this.currentLayer = "back";
   this.currentNumberElements = 0;
-  this.areaIndex = areaIndex
+  this.areaIndex = areaIndex;
   this.mode = "draw";
 }
 
@@ -20,7 +20,7 @@ TerrainEditor.prototype = Object.create(powerupjs.GameObjectGrid.prototype);
 
 TerrainEditor.prototype.update = function (delta) {
   powerupjs.GameObjectGrid.prototype.update.call(this, delta);
-  if (powerupjs.Game.gameWorld.map.mode !== 'terrain_editing') return;
+  if (powerupjs.Game.gameWorld.map.mode !== "terrain_editing") return;
   this.tilePosition.x =
     Math.floor(powerupjs.Mouse.position.x / this.cellWidth) * this.cellWidth;
   this.tilePosition.y =
@@ -29,10 +29,10 @@ TerrainEditor.prototype.update = function (delta) {
     sprites.terrain_tiles[this.terrainTypes[0]].nrSheetElements;
 
   if (powerupjs.Keyboard.pressed(49)) {
-    this.currentLayer = 'back'
+    this.currentLayer = "back";
   }
   if (powerupjs.Keyboard.pressed(50)) {
-    this.currentLayer = 'front'
+    this.currentLayer = "front";
   }
 
   if (powerupjs.Keyboard.pressed(40)) {
@@ -56,7 +56,7 @@ TerrainEditor.prototype.update = function (delta) {
   if (powerupjs.Keyboard.pressed(39)) {
     this.currentTypeIndex--;
     if (this.currentTypeIndex < 0) {
-      this.currentTypeIndex = this.terrainTypes.length - 1
+      this.currentTypeIndex = this.terrainTypes.length - 1;
     }
   }
   if (powerupjs.Mouse._left.pressed || powerupjs.Keyboard.down(186)) {
@@ -71,9 +71,10 @@ TerrainEditor.prototype.update = function (delta) {
         sprites.terrain_tiles[this.terrainTypes[this.currentTypeIndex]],
         this.currentSheetIndex,
         index,
-        0
+
+        this.terrainTypes[this.currentTypeIndex]
       );
-      t.terrainType = this.terrainTypes[this.currentTypeIndex]
+      t.terrainType = this.terrainTypes[this.currentTypeIndex];
       tiles.addAt(t, index.x, index.y);
     } else if (this.currentLayer === "front") {
       var tiles = area.find(ID.front_tiles);
@@ -86,53 +87,78 @@ TerrainEditor.prototype.update = function (delta) {
           sprites.terrain_tiles[this.terrainTypes[this.currentTypeIndex]],
           this.currentSheetIndex,
           index,
-          0
+
+          this.terrainTypes[this.currentTypeIndex]
         );
-        t.terrainType = this.terrainTypes[this.currentTypeIndex]
+        t.terrainType = this.terrainTypes[this.currentTypeIndex];
 
         tiles.addAt(t, index.x, index.y);
       }
     }
-    this.save()
+    this.save();
   }
 };
 
-TerrainEditor.prototype.save = function() {
-var all = ""
+TerrainEditor.prototype.save = function () {
+  var all = "";
   for (var k = 0; k < powerupjs.Game.gameWorld.map.areas.length; k++) {
-    var area = powerupjs.Game.gameWorld.map.areas[k]
+    var area = powerupjs.Game.gameWorld.map.areas[k];
     var tiles = area.find(ID.tiles);
-  var fullString = "|" + k + "|";
-  for (var i=0, l=tiles.gridLength; i<l; ++i) {
-    var tile = tiles.atIndex(i);
-    var string = tile.terrainType + "/" + tile.sheetIndex + "/" + tile.index.x + "/" + tile.index.y + ",";
-    fullString += string
-  }
-  all += fullString
+    var fullString = "|" + k + "|";
+    for (var i = 0, l = tiles.gridLength; i < l; ++i) {
+      var tile = tiles.atIndex(i);
+      var string =
+        tile.terrainType +
+        "/" +
+        tile.sheetIndex +
+        "/" +
+        tile.index.x +
+        "/" +
+        tile.index.y +
+        "/" +
+        tile.containsCrops +
+        ","
+      fullString += string;
+    }
+    all += fullString;
+  localStorage.terrainTiles = all;
 }
-localStorage.terrainTiles = all
-
-var all = ""
+  var all = "";
   for (var k = 0; k < powerupjs.Game.gameWorld.map.areas.length; k++) {
-    var area = powerupjs.Game.gameWorld.map.areas[k]
+    var area = powerupjs.Game.gameWorld.map.areas[k];
     var tiles = area.find(ID.front_tiles);
-  var fullString = "|" + k + "|";
-  for (var i=0, l=tiles.gridLength; i<l; ++i) {
-    if (tiles.atIndex(i) === undefined || tiles.atIndex(i) === null) continue
-    var tile = tiles.atIndex(i);
-    var string = tile.terrainType + "/" + tile.sheetIndex + "/" + tile.index.x + "/" + tile.index.y + ",";
-    fullString += string
+    var fullString = "|" + k + "|";
+    for (var i = 0, l = tiles.gridLength; i < l; ++i) {
+      if (tiles.atIndex(i) === undefined || tiles.atIndex(i) === null) continue;
+      var tile = tiles.atIndex(i);
+      var string =
+        tile.terrainType +
+        "/" +
+        tile.sheetIndex +
+        "/" +
+        tile.index.x +
+        "/" +
+        tile.index.y +
+        "," +
+        tile.type +
+        "/" +
+        tile.containsCrops +
+        ","
+      fullString += string;
+    }
+    all += fullString;
   }
-  all += fullString
-}
-localStorage.frontTerrainTiles = all
-}
+  localStorage.frontTerrainTiles = all;
+};
 
 TerrainEditor.prototype.draw = function () {
   powerupjs.GameObjectGrid.prototype.draw.call(this);
-  if (powerupjs.Game.gameWorld.map.mode !== 'terrain_editing') return;
+  if (powerupjs.Game.gameWorld.map.mode !== "terrain_editing") return;
 
-  var area = powerupjs.Game.gameWorld.map.areas[powerupjs.Game.gameWorld.map.currentAreaIndex]
+  var area =
+    powerupjs.Game.gameWorld.map.areas[
+      powerupjs.Game.gameWorld.map.currentAreaIndex
+    ];
   var tiles = area.find(ID.tiles);
   var index = new powerupjs.Vector2(
     Math.floor(powerupjs.Mouse.position.x / this.cellWidth),

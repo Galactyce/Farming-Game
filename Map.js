@@ -10,6 +10,9 @@ function Map() {
   this.playerPosition = new powerupjs.Vector2(0, 0)
   this.mode = 'playing'
   this.currentAreaIndex = 15
+  console.log(this.areas[this.currentAreaIndex].find(ID.tiles))
+ 
+  
 }
 
 Map.prototype = Object.create(powerupjs.GameObjectList.prototype)

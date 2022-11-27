@@ -77,17 +77,17 @@ NatureDecoration.prototype.shake = function() {
   console.log(objects)
   if (this.fruitType !== undefined && this.fruits.visible) {
     console.log(this.fruitType)
-    var droppedFruit1 = new DroppedItem(this.fruitType, 'tree_fruit', new powerupjs.Vector2(0, this.position.y + 80));
+    var droppedFruit1 = new Plant(this.fruitType, 'tree_fruit', new powerupjs.Vector2(0, this.position.y + 80));
     droppedFruit1.position = new powerupjs.Vector2(this.position.x + 20, this.position.y + 20)
    
     objects.add(droppedFruit1)
 
-    var droppedFruit2 = new DroppedItem(this.fruitType, 'tree_fruit', new powerupjs.Vector2(0, this.position.y + 60));
+    var droppedFruit2 = new Plant(this.fruitType, 'tree_fruit', new powerupjs.Vector2(0, this.position.y + 60));
     droppedFruit2.position = new powerupjs.Vector2(this.position.x, this.position.y + 10)
    
     objects.add(droppedFruit2)
 
-    var droppedFruit3 = new DroppedItem(this.fruitType, 'tree_fruit', new powerupjs.Vector2(0, this.position.y + 60));
+    var droppedFruit3 = new Plant(this.fruitType, 'tree_fruit', new powerupjs.Vector2(0, this.position.y + 60));
     droppedFruit3.position = new powerupjs.Vector2(this.position.x + 40, this.position.y + 10)
    
     objects.add(droppedFruit3)

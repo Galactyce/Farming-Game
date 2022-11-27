@@ -1,6 +1,7 @@
 
 function SpriteSheet(imageName, createCollisionMask) {
 this.image = new Image();
+this.imgName = imageName
 this.collisionMask = null
 this.image.src = imageName;
 powerupjs.Game.spritesStillLoading += 1;

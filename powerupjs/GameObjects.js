@@ -219,7 +219,9 @@ var powerupjs = (function (powerupjs) {
     this.gameObjects.push(gameobject);
 
     gameobject.parent = this;
-    
+    this.gameObjects.sort(function (a, b) {
+      return a.layer - b.layer;
+    });
   };
 
   GameObjectList.prototype.remove = function (gameobject) {
@@ -522,7 +524,7 @@ var powerupjs = (function (powerupjs) {
   };
 
   AnimatedGameObject.prototype.animationEnded = function () {
-    return !this.looping && this._sheetIndex >= this.sprite.nrSheetElements;
+    return !this.looping && this._sheetIndex >= this.sprite.nrSheetElements - 1;
   };
 
   AnimatedGameObject.prototype.update = function (delta) {

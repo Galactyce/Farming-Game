@@ -3,9 +3,9 @@ function TileField(areaIndex) {
   this.cellWidth = 32;
   this.cellHeight = 32;
   this.place = "back";
-  this.areaIndex = areaIndex
-  // localStorage.clear()
-  this.loadTiles();
+  this.areaIndex = areaIndex;
+  this.loaded = false;
+  this.loadTiles()
 }
 
 TileField.prototype = Object.create(powerupjs.GameObjectGrid.prototype);
@@ -32,23 +32,32 @@ TileField.prototype.loadTiles = function () {
   else {
     var tileCode = localStorage.terrainTiles;
     var areaCodes = tileCode.split("|")
-    var area = areaCodes[(this.areaIndex + 1) * 2]
+    for (var i=0; i<areaCodes.length; i++) {
+      if (parseInt(areaCodes[i]) === this.areaIndex) {
+        var area = areaCodes[i + 1]
+      }
+    }
+    // var area = areaCodes[(this.areaIndex + 1) * 2]
     var codeArray = area.split(",");
     for (var i=0; i<codeArray.length - 1; i++) {
       var code = codeArray[i].split('/');
-      var type = code[0];
+      var terrainType = code[0];
       var sheetIndex = parseInt(code[1]);
       var x = parseInt(code[2]);
-      var y = parseInt(code[3])
-      var t = new Tile(sprites.terrain_tiles[type], sheetIndex, new powerupjs.Vector2(x, y))
+      var y = parseInt(code[3]);
+      var cropped = code[4]
+      var t = new Tile(sprites.terrain_tiles[terrainType], sheetIndex, new powerupjs.Vector2(x, y))
       t.position = new powerupjs.Vector2(
         x * this.cellWidth,
         y * this.cellHeight
       );
-      t.terrainType = type
+      t.terrainType = terrainType
+      t.containsCrops = cropped
+
       this.addAt(t, x, y);
     }
   }
+  this.loaded = true
 };
 
 TileField.prototype.update = function (delta) {

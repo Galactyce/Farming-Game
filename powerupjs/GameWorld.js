@@ -34,6 +34,7 @@ function GameWorld(layer) {
   this.map = new Map();
   var area = this.map.areas[this.map.currentAreaIndex];
   this.inventory = new Inventory();
+  this.inventory.visible = false
   this.add(this.map);
 
 }
@@ -42,18 +43,18 @@ GameWorld.prototype = Object.create(powerupjs.GameObjectList.prototype);
 
 GameWorld.prototype.draw = function() {
   powerupjs.GameObjectList.prototype.draw.call(this);
-  if (this.inventory.open) {
+
     this.inventory.draw()
-  }
+  
 }
 
 GameWorld.prototype.update = function (delta) {
   powerupjs.GameObjectList.prototype.update.call(this, delta);
-  if (this.inventory.open) {
+
     this.inventory.update(delta)
-  }
+  
   if (powerupjs.Keyboard.pressed(69) && this.map.mode === 'playing') {
-    this.inventory.open = !this.inventory.open
+    this.inventory.visible = !this.inventory.visible
   }
   if (powerupjs.Keyboard.pressed(65)) {
     this.map.mode = 'playing'
@@ -121,3 +122,77 @@ GameWorld.prototype.update = function (delta) {
 GameWorld.prototype.handleInput = function () {
   powerupjs.GameObjectList.prototype.handleInput.call(this);
 };
+
+GameWorld.prototype.saveObjects = function() {
+  var all = "";
+  for (var k = 0; k < 30; k++) {
+    var area = powerupjs.Game.gameWorld.map.areas[k];
+    var objects = area.find(ID.objects);
+    var fullString = "|" + k + "|";
+    for (var i = 0, l = objects.gameObjects.length; i < l; ++i) {
+      if (
+        objects.gameObjects[i] === undefined ||
+        objects.gameObjects[i] === null
+      )
+        continue;
+      var object = objects.gameObjects[i];
+      if (object.type === "nature") {
+        var string =
+          object.type +
+          "/" +
+          object.spriteType +
+          "/" +
+          object.index.x +
+          "/" +
+          object.index.y +
+          ",";
+      } else if (object.type === "flower") {
+        var string =
+          object.type +
+          "/" +
+          object.spriteType +
+          "/" +
+          object.sheetIndex +
+          "/" +
+          object.index.x +
+          "/" +
+          object.index.y +
+          ",";
+      }
+     else if (object.type === "wall") {
+      var string =
+        object.type +
+        "/" +
+        object.spriteType +
+        "/" +
+        object.sheetIndex +
+        "/" +
+        object.index.x +
+        "/" +
+        object.index.y +
+        ",";
+    } 
+    else if (object.type === "crops") {
+      var string =
+        object.type +
+        "/" +
+        object.sprite_type +
+        "/" +
+        object.sheetIndex +
+        "/" +
+        object.position.x +
+        "/" +
+        object.position.y +
+        ",";
+    } 
+      else {
+        var string = undefined + ",";
+      }
+      fullString += string;
+    }
+
+    all += fullString;
+  }
+
+  localStorage.objects = all;
+}

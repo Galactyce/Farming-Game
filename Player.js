@@ -5,6 +5,7 @@ function Player() {
   this.loadAnimation(sprites.main_character["idle"].back, "idle_back", true);
   this.loadAnimation(sprites.main_character["idle"].right, "idle_right", true);
   this.loadAnimation(sprites.main_character["idle"].left, "idle_left", true);
+  this.mode = "walking";
   this.loadAnimation(
     sprites.main_character["run"].front,
     "run_front",
@@ -29,7 +30,12 @@ function Player() {
     true,
     0.08
   );
-
+  this.loadAnimation(
+    sprites.main_character["tend"].front,
+    "tend_front",
+    false,
+    0.09
+  );
   this.position = new powerupjs.Vector2(200, 300);
 }
 
@@ -46,10 +52,12 @@ Player.prototype.update = function (delta) {
     if (this.velocity.x === 0) this.playAnimation("run_back");
     this.lastDirection = "back";
     this.velocity.y = -250;
+    this.mode = "walking";
   } else if (powerupjs.Keyboard.down(40)) {
     if (this.velocity.x === 0) this.playAnimation("run_front");
     this.lastDirection = "front";
     this.velocity.y = 250;
+    this.mode = "walking";
   } else {
     this.velocity.y = 0;
   }
@@ -57,37 +65,42 @@ Player.prototype.update = function (delta) {
     this.playAnimation("run_left");
     this.lastDirection = "left";
     this.velocity.x = -250;
+    this.mode = "walking";
   } else if (powerupjs.Keyboard.down(39)) {
     this.playAnimation("run_right");
     this.lastDirection = "right";
     this.velocity.x = 250;
+    this.mode = "walking";
   } else {
     this.velocity.x = 0;
   }
-  if (this.velocity.x === 0 && this.velocity.y === 0) {
-    if (this.lastDirection === "front") this.playAnimation("idle_front");
-    else if (this.lastDirection === "back") this.playAnimation("idle_back");
-    if (this.lastDirection === "right") this.playAnimation("idle_right");
-    if (this.lastDirection === "left") this.playAnimation("idle_left");
+  if (
+    this.velocity.x === 0 &&
+    this.velocity.y === 0 &&
+    this.mode === "walking"
+  ) {
+    this.playAnimation("idle_" + this.lastDirection);
   }
 
   var objects = powerupjs.Game.gameWorld.map.areas[
     powerupjs.Game.gameWorld.map.currentAreaIndex
   ].find(ID.objects);
+  var tiles = powerupjs.Game.gameWorld.map.areas[
+    powerupjs.Game.gameWorld.map.currentAreaIndex
+  ].find(ID.tiles);
 
   for (var i = 0; i < objects.listLength; i++) {
     var object = objects.at(i);
     var inventory = powerupjs.Game.gameWorld.inventory;
-
-    if (
-      object.type === "dropped_item" &&
-      object.velocity.y === 0 &&
-      object.velocity.x === 0 &&
-      this.boundingBox.intersects(object.boundingBox) &&
-      object.visible &&
-      inventory.itemGrid.gameObjects.length < 27
-    ) {
-      if (powerupjs.Keyboard.pressed(32)) {
+    if (powerupjs.Keyboard.pressed(32)) {
+      if (
+        object.type === "plant" &&
+        object.velocity.y === 0 &&
+        object.velocity.x === 0 &&
+        this.boundingBox.intersects(object.boundingBox) &&
+        object.visible &&
+        inventory.itemGrid.gameObjects.length < 27
+      ) {
         object.visible = false;
         inventory.itemGrid.add(
           new powerupjs.SpriteGameObject(
@@ -97,6 +110,45 @@ Player.prototype.update = function (delta) {
             ID.layer_overlays
           )
         );
+        break;
+      } else if (
+        object.type === "seeds" &&
+        this.boundingBox.intersects(object.boundingBox) &&
+        object.visible &&
+        inventory.itemGrid.gameObjects.length < 27
+      ) {
+        object.visible = false;
+        inventory.itemGrid.add(
+          new powerupjs.SpriteGameObject(
+            sprites.items[object.sprite_type],
+            1,
+            0,
+            ID.layer_overlays
+          )
+        );
+        break;
+      }
+      if (
+        object.type === "crops" &&
+        object.ready &&
+        this.boundingBox.intersects(object.boundingBox) &&
+        object.visible &&
+        inventory.itemGrid.gameObjects.length < 27
+      ) {
+        alert()
+        object.visible = false;
+        console.log(object.sprite_type + "_plant")
+        var tileIndex = new powerupjs.Vector2(object.position.x / 32, object.position.y / 32);
+        tiles.at(tileIndex.x, tileIndex.y).containsCrops = 'false'
+        inventory.itemGrid.add(
+          new powerupjs.SpriteGameObject(
+            sprites.items[object.sprite_type + "_plant"],
+            1,
+            0,
+            ID.layer_overlays
+          )
+        );
+
         break;
       }
     }
@@ -134,6 +186,7 @@ Player.prototype.update = function (delta) {
       map.areas[map.currentAreaIndex].player.position = map.playerPosition;
       map.areas[map.currentAreaIndex].player.lastDirection =
         map.playerAnimation;
+    
     } else {
       this.position.y = 10;
     }
@@ -143,12 +196,14 @@ Player.prototype.update = function (delta) {
     this.position.y = 20;
     map.areas[map.currentAreaIndex].player.position = map.playerPosition;
     map.areas[map.currentAreaIndex].player.lastDirection = map.playerAnimation;
+   
   }
   if (this.position.x > 1440) {
     map.currentAreaIndex += 1;
     this.position.x = 60;
     map.areas[map.currentAreaIndex].player.position = map.playerPosition;
     map.areas[map.currentAreaIndex].player.lastDirection = map.playerAnimation;
+
   }
   if (this.position.x < 0) {
     if (map.currentAreaIndex > 0) {
@@ -157,10 +212,16 @@ Player.prototype.update = function (delta) {
       map.areas[map.currentAreaIndex].player.position = map.playerPosition;
       map.areas[map.currentAreaIndex].player.lastDirection =
         map.playerAnimation;
+
     } else {
       this.position.x = 10;
     }
   }
+
+  if (this.animationEnded()) {
+    this.playAnimation("idle_" + this.lastDirection);
+  }
+
   powerupjs.Game.gameWorld.map.playerAnimation = this.lastDirection;
   powerupjs.Game.gameWorld.map.playerPosition = this.position.copy();
 };

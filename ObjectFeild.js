@@ -1,25 +1,25 @@
 function ObjectFeild(areaIndex) {
   powerupjs.GameObjectList.call(this, ID.layer_objects, ID.objects);
   this.areaIndex = areaIndex;
-  // for (var i=0; i<2; i++) {
+  for (var i=0; i<2; i++) {
     
-  //   var items = [];
-  //   for (var k in sprites.carry_items) {
-  //     items.push(k)
-  //   } 
-  //   var randItem = Math.floor(Math.random() * items.length)
-  // var item = new DroppedItem(items[randItem])
-  // item.position = new powerupjs.Vector2(Math.random() * 700, Math.random() * 700);
-  // this.add(item)
-  // }
-  this.loadObjects();
+    var items = [];
+    for (var k in sprites.seeds) {
+      items.push(k)
+    } 
+    var randItem = Math.floor(Math.random() * items.length)
+  var item = new SeedPacket(items[randItem])
+  item.position = new powerupjs.Vector2(Math.random() * 700, Math.random() * 700);
+  this.add(item)
+  }
+  this.loadObjects()
+  
 }
 
 ObjectFeild.prototype = Object.create(powerupjs.GameObjectList.prototype);
 
 ObjectFeild.prototype.update = function(delta) {
   powerupjs.GameObjectList.prototype.update.call(this, delta);
-  
 }
 
 ObjectFeild.prototype.loadObjects = function () {
@@ -55,6 +55,15 @@ ObjectFeild.prototype.loadObjects = function () {
         var y = parseInt(code[4]);
         var t = new Wall(sprite, new powerupjs.Vector2(x, y), sheetIndex);
         t.position = new powerupjs.Vector2(x * 16, y * 16);
+        this.add(t)
+      }
+      else if (type === 'crops') {
+        var sprite = code[1];
+        var sheetIndex = parseInt(code[2]);
+        var x = parseInt(code[3]);
+        var y = parseInt(code[4]);
+        var t = new Crop(sprite, new powerupjs.Vector2(x, y), sheetIndex);
+        
         this.add(t)
       }
     }

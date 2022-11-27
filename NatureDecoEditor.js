@@ -14,7 +14,6 @@ function NatureDecoEditor(areaIndex) {
   this.currentTypeIndex = 0
   this.fruitSelected = false;
   this.currentFruitIndex = 0
-  localStorage.clear()
   this.mode = "draw";
 }
 
@@ -116,35 +115,11 @@ NatureDecoEditor.prototype.update = function (delta) {
         }
       }
     }
-    this.save()
+    powerupjs.Game.gameWorld.saveObjects()
   }
 };
 
-NatureDecoEditor.prototype.save = function () {
-    var all = "";
-    for (var k = 0; k < 3; k++) {
-      var area = powerupjs.Game.gameWorld.map.areas[k];
-      var decorations = area.find(ID.objects);
-      var fullString = "|" + k + "|";
-      for (var i = 0, l = decorations.gameObjects.length; i < l; ++i) {
-        if (decorations.gameObjects[i] === undefined || decorations.gameObjects[i] === null)
-          continue;
-        var object = decorations.gameObjects[i];
-        if (object.type === 'nature') {
-        var string = object.type + "/" + object.spriteType + "/" + object.index.x + "/" + object.index.y + ",";
-        }
-        else {
-          var string = undefined + ","
-        }
-        fullString += string;
-      }
-      all += fullString;
-    }
 
-    localStorage.objects = all;
-  
-  
-};
 
 NatureDecoEditor.prototype.draw = function () {
   powerupjs.GameObjectGrid.prototype.update.call(this);
