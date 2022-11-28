@@ -1,10 +1,10 @@
-function BoundaryFeild(areaIndex) {
+function InteriorBounds(areaIndex) {
   powerupjs.GameObjectGrid.call(
     this,
     60,
     100,
     ID.layer_overlays,
-    ID.boundaries
+    ID.interior_boundaries
   );
   this.cellWidth = 16;
   this.cellHeight = 16;
@@ -12,15 +12,15 @@ function BoundaryFeild(areaIndex) {
   this.loadTiles()
 }
 
-BoundaryFeild.prototype = Object.create(powerupjs.GameObjectGrid.prototype)
+InteriorBounds.prototype = Object.create(powerupjs.GameObjectGrid.prototype)
 
 
-BoundaryFeild.prototype.loadTiles = function () {
-  if (localStorage.boundaryTiles !== undefined) {
-    var tileCode = localStorage.boundaryTiles;
+InteriorBounds.prototype.loadTiles = function () {
+  if (localStorage.interiorBoundaries !== undefined) {
+    var tileCode = localStorage.interiorBoundaries;
     var areaCodes = tileCode.split("|")
     for (var i=0; i<areaCodes.length; i++) {
-      if (parseInt(areaCodes[i]) === this.areaIndex) {  // Find the current area...
+      if (areaCodes[i] === this.areaIndex) {  // Find the current area...
         var area = areaCodes[i + 1]  // And use the next part of the array, which is the code
       }
     }

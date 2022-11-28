@@ -104,12 +104,20 @@ powerupjs.Game.loadAssets = function () {
     pear_plant: loadSprite('item_pear.png'),
     plum_plant: loadSprite('item_plum.png'),
     pumpkin_plant: loadSprite('item_pumpkin.png'),
+    eggplant_plant: loadSprite('item_eggplant.png'),
+    corn_plant: loadSprite('item_corn.png'),
     radish_plant: loadSprite('item_radish.png'),
     carrot_seeds: loadSprite('item_seeds_carrot.png'),
     tomato_seeds: loadSprite("item_seeds_tomato.png"),
-    strawberry_seeds: loadSprite("item_seeds_strawberry.png")
-
-    
+    strawberry_seeds: loadSprite("item_seeds_strawberry.png"),
+    cabbage_seeds: loadSprite("item_seeds_cabbage.png"),
+    corn_seeds: loadSprite("item_seeds_corn.png"),
+    eggplant_seeds: loadSprite("item_seeds_eggplant.png"),
+    potato_seeds: loadSprite("item_seeds_potato.png"),
+    pumpkin_seeds: loadSprite("item_seeds_pumpkin.png"),
+    radish_seeds: loadSprite("item_seeds_radish.png"),
+    watermelon_seeds: loadSprite("item_seeds_watermelon.png"),
+    wheat_seeds: loadSprite("item_seeds_wheat.png"),
   }
 
   sprites.fruits = {
@@ -135,13 +143,30 @@ powerupjs.Game.loadAssets = function () {
   sprites.seeds = {
     carrot_seeds: loadSprite("plant_seeds_carrot.png"),
     tomato_seeds: loadSprite("plant_seeds_tomato.png"),
-    strawberry_seeds: loadSprite("plant_seeds_strawberry.png")
+    strawberry_seeds: loadSprite("plant_seeds_strawberry.png"),
+    cabbage_seeds: loadSprite("plant_seeds_cabbage.png"),
+    corn_seeds: loadSprite("plant_seeds_corn.png"),
+    eggplant_seeds: loadSprite("plant_seeds_eggplant.png"),
+    potato_seeds: loadSprite("plant_seeds_potato.png"),
+    pumpkin_seeds: loadSprite("plant_seeds_pumpkin.png"),
+    radish_seeds: loadSprite("plant_seeds_radish.png"),
+    watermelon_seeds: loadSprite("plant_seeds_watermelon.png"),
+    wheat_seeds: loadSprite("plant_seeds_wheat.png"),
   }
 
   sprites.crops = {
     carrot: loadSprite("crops_carrot@6.png"),
     tomato: loadSprite("crops_tomato@6.png"),
-    strawberry: loadSprite("crops_strawberry@6.png")
+    strawberry: loadSprite("crops_strawberry@6.png"),
+    cabbage: loadSprite("crops_cabbage@6.png"),
+    corn: loadSprite("crops_corn@6.png"),
+    eggplant: loadSprite("crops_eggplant@6.png"),
+    potato: loadSprite("crops_potato@6.png"),
+    pumpkin: loadSprite("crops_pumpkin@6.png"),
+    radish: loadSprite("crops_radish@6.png"),
+    watermelon: loadSprite("crops_watermelon@6.png"),
+    wheat: loadSprite("crops_wheat@6.png")
+
   }
 
   sprites.carry_items = {
@@ -162,6 +187,14 @@ powerupjs.Game.loadAssets = function () {
     plum: loadSprite('carry_item_plum.png'),
     pumpkin: loadSprite('carry_item_pumpkin.png'),
     radish: loadSprite('carry_item_radish.png')
+  }
+
+  sprites.buildings = {
+    barn: loadSprite("summer_building_barn.png")
+  }
+
+  sprites.interiors = {
+    barn: loadSprite("barn_area.png")
   }
 
   sprites.extras = {

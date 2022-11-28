@@ -3,8 +3,9 @@ S: Boundary editing
 D: Terrain editing
 F: Tree editing
 G: Flower editing
+H: Wall editing
 
-For S, F G: 
+For S, F, G, H: 
 --------------
 B: draw
 E: erase

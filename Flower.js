@@ -12,7 +12,7 @@ Flower.prototype.update = function(delta) {
   powerupjs.SpriteGameObject.prototype.update.call(this, delta)
   var feild = this.parent;
   var player = feild.find(ID.player);
-  var switchPoint = this.position.y - 15
+  var switchPoint = this.position.y - 15  // The point where the character changes layer
   if (this.spriteType !== 'weeds') {
   if (player !== null) {
     if (player.position.y > switchPoint) {
@@ -23,7 +23,7 @@ Flower.prototype.update = function(delta) {
       
     }
     feild.gameObjects.sort(function (a, b) {
-      return a.layer - b.layer;
+      return a.layer - b.layer;     // Sort the layers
     });
   }
   }

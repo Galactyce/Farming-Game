@@ -35,9 +35,9 @@ NatureDecoration.prototype.update = function (delta) {
   powerupjs.AnimatedGameObject.prototype.update.call(this, delta);
   var feild = this.parent;
   var player = feild.find(ID.player);
-  var switchPoint = this.position.y
+  var switchPoint = this.position.y // Where the player changes layer
   if (this.spriteType === 'oak_tree' || this.spriteType === 'pine_tree') {
-    switchPoint = this.position.y + 40
+    switchPoint = this.position.y + 40 // only if its a tree
   }
  
   if (player !== null) {
@@ -57,7 +57,7 @@ NatureDecoration.prototype.update = function (delta) {
   var distanceX = Math.abs(player.position.x - this.position.x);
   var distanceY = Math.abs(player.position.y - this.position.y);
   var distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY)
-  if (distance < 60) {
+  if (distance < 60) {    // Is the player close?
     if (powerupjs.Keyboard.pressed(32)) {
       console.log(this.spriteType)
       if (this.spriteType === 'oak_tree' || this.spriteType === 'pine_tree') 
@@ -65,7 +65,7 @@ NatureDecoration.prototype.update = function (delta) {
     }
   }
   else {
-    this.playAnimation('idle')
+    this.playAnimation('idle')  // Change back if player walks away
   }
   
 };
@@ -92,7 +92,7 @@ NatureDecoration.prototype.shake = function() {
    
     objects.add(droppedFruit3)
 
-    this.fruits.visible = false
+    this.fruits.visible = false // Hide the fruits in the tree
 
   }
 

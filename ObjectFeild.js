@@ -1,7 +1,7 @@
 function ObjectFeild(areaIndex) {
   powerupjs.GameObjectList.call(this, ID.layer_objects, ID.objects);
   this.areaIndex = areaIndex;
-  for (var i=0; i<2; i++) {
+  for (var i=0; i<15; i++) {
     
     var items = [];
     for (var k in sprites.seeds) {

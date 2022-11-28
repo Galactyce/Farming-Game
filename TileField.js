@@ -53,7 +53,6 @@ TileField.prototype.loadTiles = function () {
       );
       t.terrainType = terrainType
       t.containsCrops = cropped
-
       this.addAt(t, x, y);
     }
   }

@@ -12,8 +12,8 @@ function NatureDecoEditor(areaIndex) {
     this.fruitTypes.push(i)
   }
   this.currentTypeIndex = 0
-  this.fruitSelected = false;
-  this.currentFruitIndex = 0
+  this.fruitSelected = false;  // Does the tree have fruit?
+  this.currentFruitIndex = 0  // If so, what fruit?
   this.mode = "draw";
 }
 
@@ -27,16 +27,16 @@ NatureDecoEditor.prototype.update = function (delta) {
   this.tilePosition.y =
     Math.floor(powerupjs.Mouse.position.y / this.cellHeight) * this.cellHeight;
 
-  if (powerupjs.Keyboard.pressed(66)) {
+  if (powerupjs.Keyboard.pressed(66)) { // B
     this.mode = "draw";
   }
-  if (powerupjs.Keyboard.pressed(69)) {
+  if (powerupjs.Keyboard.pressed(69)) { // E
     this.mode = "erase";
   }
-  if (powerupjs.Keyboard.pressed(49)) {
+  if (powerupjs.Keyboard.pressed(49)) { // 1
     this.fruitSelected = false
   }
-  if (powerupjs.Keyboard.pressed(50)) {
+  if (powerupjs.Keyboard.pressed(50)) { // 2
     this.fruitSelected = true
   }
   var fruits = new Array();
@@ -44,14 +44,14 @@ NatureDecoEditor.prototype.update = function (delta) {
     fruits.push(i)
   };
 
-  if (powerupjs.Keyboard.pressed(38)) {
+  if (powerupjs.Keyboard.pressed(38)) { // Up arrow
     this.currentFruitIndex++
     if (this.currentFruitIndex > fruits.length - 1) {
       this.currentFruitIndex = 0
     }
   }
 
-  if (powerupjs.Keyboard.pressed(40)) {
+  if (powerupjs.Keyboard.pressed(40)) { // Down arrow
     this.currentFruitIndex--
     if (this.currentFruitIndex < 0) {
       this.currentFruitIndex = fruits.length - 1
@@ -59,14 +59,14 @@ NatureDecoEditor.prototype.update = function (delta) {
   }
 
 
-  if (powerupjs.Keyboard.pressed(37)) {
+  if (powerupjs.Keyboard.pressed(37)) { // Left arrow
     this.currentTypeIndex++;
     if (this.currentTypeIndex > this.types.length - 1) {
       this.currentTypeIndex = 0;
     }
   }
 
-  if (powerupjs.Keyboard.pressed(39)) {
+  if (powerupjs.Keyboard.pressed(39)) { //  Right Arrow
     this.currentTypeIndex--;
     if (this.currentTypeIndex < 0) {
       this.currentTypeIndex = this.types.length - 1;
@@ -85,7 +85,7 @@ NatureDecoEditor.prototype.update = function (delta) {
             this.tilePosition.y / this.cellHeight,
           ),
           this.tilePosition,
-          this.fruitTypes[this.currentFruitIndex]
+          this.fruitTypes[this.currentFruitIndex] // current fruit type
       )
       }
       else {
@@ -96,7 +96,7 @@ NatureDecoEditor.prototype.update = function (delta) {
             this.tilePosition.y / this.cellHeight,
           ),
           this.tilePosition,
-          undefined
+          undefined // no fruit
       )
       }
    
@@ -115,7 +115,6 @@ NatureDecoEditor.prototype.update = function (delta) {
         }
       }
     }
-    powerupjs.Game.gameWorld.saveObjects()
   }
 };
 

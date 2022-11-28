@@ -16,11 +16,11 @@ DroppedItem.prototype.update = function(delta) {
   this.time += 270
 
   if (this.velocity.y === 0 && this.velocity.x === 0) {
-  this.position.y += Math.sin(this.time) * 1.4;
+  this.position.y += Math.sin(this.time) * 1.4; // Add bobbing effect
   }
   if (this.destination !== undefined) {
     if (this.position.y < this.destination.y) {
-      this.velocity.y = 100
+      this.velocity.y = 100   // Falling effect
     }
     else {
       this.velocity.y = 0;

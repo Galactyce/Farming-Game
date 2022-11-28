@@ -202,7 +202,7 @@ var powerupjs = (function (powerupjs) {
   GameObjectList.prototype.draw = function () {
     for (var i = 0; i < this.gameObjects.length; i++) {
       // if (this.gameObjects[i].visible === false) alert()
-      if (this.gameObjects[i] === undefined) continue;
+      if (this.gameObjects[i] === undefined || this.gameObjects[i] === null) continue;
       if (this.visible && this.gameObjects[i].visible) {
         this.gameObjects[i].draw();
       }

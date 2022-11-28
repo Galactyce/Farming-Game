@@ -88,10 +88,10 @@ Inventory.prototype.update = function (delta) {
     powerupjs.Mouse._left.pressed
   ) {
     for (var i = 0; i < this.buttons.listLength; i++) {
-      this.buttons.at(i).position.y = 175;
+      this.buttons.at(i).position.y = 175; // Reset icon positions
     }
     this.mode = "items";
-    this.itemsButton.position.y = 160;
+    this.itemsButton.position.y = 160; // Change item icon position
     this.frame.sprite = sprites.inventory["tabs"].slot1;
   }
   if (
@@ -99,95 +99,82 @@ Inventory.prototype.update = function (delta) {
     powerupjs.Mouse._left.pressed
   ) {
     for (var i = 0; i < this.buttons.listLength; i++) {
-      this.buttons.at(i).position.y = 175;
+      this.buttons.at(i).position.y = 175; // Reset icon positions
     }
     this.mode = "projects";
-    this.projectsButton.position.y = 160;
+    this.projectsButton.position.y = 160; // Change projects icon position
     this.frame.sprite = sprites.inventory["tabs"].slot2;
   }
 
   if (this.mode === "items" && this.visible) {
     this.itemGrid.update(delta);
   }
-
-  for (var i = 0; i < this.itemGrid.listLength; i++) {
+  var player = powerupjs.Game.gameWorld.map.areas[
+    powerupjs.Game.gameWorld.map.currentAreaIndex
+  ].find(ID.player);
+  for (var i = 0; i < this.itemGrid.gridLength; i++) {
     var thing = this.itemGrid.atIndex(i);
+    if (thing === null || thing === undefined) continue;
     var sprite = thing.sprite.imgName;
     var imgInfo = sprite.split("/");
-    var imgType = imgInfo[1].split("_");
-    var player = powerupjs.Game.gameWorld.map.areas[
-      powerupjs.Game.gameWorld.map.currentAreaIndex
-    ].find(ID.player);
+    var imgType = imgInfo[1].split("_"); // Splits the image file name into sections
+
     if (
       thing.boundingBox.contains(powerupjs.Mouse.position) &&
       powerupjs.Mouse._left.pressed
     ) {
-     
-
+      console.log(imgType);
       if (imgType[1] === "seeds") {
         this.selected = "planting";
-        var parts = imgType[2].split(".");
-        console.log(parts[0])
-        this.cropSelected = parts[0];
-        this.visible = false;
-        thing.visible = false;
+        var parts = imgType[2].split("."); // 2 objects in list: imgName & ".png"
+        this.cropSelected = parts[0]; // Extracts crop name by file name
+        this.visible = false; // Hide inventory
+        thing.visible = false; // Hide seed packet
+        this.itemGrid.gameObjects[i] = null; // Set the item to null
+        break;
       }
     }
   }
 
   if (this.selected === "planting" && this.cropSelected !== "none") {
-    console.log('oasdjkf')
     var tile = new powerupjs.Vector2(
       Math.floor((player.position.x + 15) / 32) * 32,
       Math.floor((player.position.y + 20) / 32) * 32
-    );
-    // var placeMarker = new powerupjs.SpriteGameObject(
-    //   sprites.extras["planting_marker"],
-    //   1,
-    //   0,
-    //   ID.layer_overlays_2
-    // );
-    // placeMarker.position = tile;
-    // placeMarker.draw();
+    ); // Place of tile
     var terrainTiles = powerupjs.Game.gameWorld.map.areas[
       powerupjs.Game.gameWorld.map.currentAreaIndex
     ].find(ID.tiles);
-
-    var terrainType = terrainTiles.at(
+    var tileIndex = terrainTiles.at(
       Math.floor((player.position.x + 15) / 32),
       Math.floor((player.position.y + 20) / 32)
-    ).terrainType;
-    var tileSheetIndex = terrainTiles.at(
-      Math.floor((player.position.x + 15) / 32),
-      Math.floor((player.position.y + 20) / 32)
-    ).sheetIndex
-      console.log(terrainType)
+    )
+    var terrainType = tileIndex.terrainType; // Dirt? Path? Normal?
+   
+    var tileSheetIndex = tileIndex.sheetIndex
+  
     if (
       powerupjs.Keyboard.pressed(32) &&
       terrainType === "path_edge_dirt" &&
-      (tileSheetIndex === 5 ||  
-      tileSheetIndex === 6 ||
-      tileSheetIndex === 7) && 
-      terrainTiles.at(
-      Math.floor((player.position.x + 15) / 32),
-      Math.floor((player.position.y + 20) / 32)
-    ).containsCrops === 'false'
+      (tileSheetIndex === 5 || // Is the tile solid dirt?
+        tileSheetIndex === 6 || // Is the tile solid dirt?
+        tileSheetIndex === 7) && // Is the tile solid dirt?
+      tileIndex.containsCrops === "false"
     ) {
-      alert()
-      terrainTiles.at(
-      Math.floor((player.position.x + 15) / 32),
-      Math.floor((player.position.y + 20) / 32)
-    ).containsCrops = true
+      tileIndex.containsCrops = "true";
       player.mode = "tending";
       player.playAnimation("tend_front");
       var objects = powerupjs.Game.gameWorld.map.areas[
         powerupjs.Game.gameWorld.map.currentAreaIndex
       ].find(ID.objects);
-      var plantType = imgType[2].split(".");
-      objects.add(new Crop(plantType[0], tile, 0));
+
+      objects.add(new Crop(this.cropSelected, tile, 0));
       this.selected = "none";
-      powerupjs.Game.gameWorld.saveObjects()
+      powerupjs.Game.gameWorld.saveObjects();
+      // Save the crop to objects
+      powerupjs.Game.gameWorld.map.areas[
+        powerupjs.Game.gameWorld.map.currentAreaIndex
+      ].terrainEditor.save();
+      // Save the tile as containing crops
     }
   }
 };
-

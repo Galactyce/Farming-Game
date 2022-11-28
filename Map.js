@@ -6,13 +6,15 @@ function Map() {
     var area = new Area(i)
     this.areas.push(area)
   }
-  this.playerAnimation = undefined
-  this.playerPosition = new powerupjs.Vector2(0, 0)
+  this.playerAnimation = undefined  // Save the current player animation
+  this.playerPosition = new powerupjs.Vector2(0, 0) // Save the current player position
   this.mode = 'playing'
   this.currentAreaIndex = 15
-  console.log(this.areas[this.currentAreaIndex].find(ID.tiles))
  
-  
+  var barn = new Building(15, new powerupjs.Vector2(100, 100), 'barn', new powerupjs.Rectangle(110, 300, 100, 20)) ;
+  this.areas[15].find(ID.objects).add(barn)
+
+ 
 }
 
 Map.prototype = Object.create(powerupjs.GameObjectList.prototype)
