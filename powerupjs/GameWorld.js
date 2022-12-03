@@ -66,7 +66,6 @@ GameWorld.prototype.loadInteriors = function () {
     console.log(localStorage.machines)
 
   if (localStorage.machines !== undefined) {
-    alert('not')
     var fullCode = localStorage.machines;
     var splitCode = fullCode.split("|");
     console.log(splitCode.length)
@@ -163,7 +162,6 @@ GameWorld.prototype.loadInteriors = function () {
     
   }
   else {
-      alert('yes')
       var trough = new Trough(
         new powerupjs.Vector2(400, 360),
         'food',
