@@ -39,6 +39,7 @@ Trough.prototype.update = function (delta) {
             var sprite = thing.sprite.imgName;
             var imgInfo = sprite.split("/");
             var imgType = imgInfo[1].split("_"); // Splits the image file name into sections
+            console.log(imgType[1])
             if (imgType[1] === "wheat.png") {
               this.remaining++;
               inventory.gameObjects[k] = null; // Set the item to null

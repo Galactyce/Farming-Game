@@ -80,15 +80,16 @@ Inventory.prototype.load = function() {
     var row = i % this.itemGrid.columns;
     if (items[i] !== 'null' && items[i] !== 'undefined') {
       var imgInfo = items[i].split("/");
-      // var imgType = imgInfo[1].split("_"); // Splits the image file name into sections
+       var imgType = imgInfo[1].split("_"); // Splits the image file name into sections
       var name = imgInfo[1].split('.')
+
     var item = new powerupjs.SpriteGameObject(
-      sprites.items['wheat_plant'],
+      sprites.items[name[0]],
       1,
       0,
       ID.layer_overlays
     )
-    item.sprite.imgName = items[i]
+ 
     this.itemGrid.addAt(item, row, col)
 
     }
@@ -120,6 +121,7 @@ Inventory.prototype.draw = function () {
 
   if (this.mode === "items" && this.visible) {
     this.itemGrid.draw();
+    console.log(this.itemGrid)
   }
 };
 

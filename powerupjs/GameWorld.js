@@ -119,42 +119,67 @@ GameWorld.prototype.loadInteriors = function () {
            butter_churn
           );
         }
-        }
-        
-       
-        barn1.machines.add(
-          new Machine(
+        if (code[1] === 'goatcheese') {
+          var goat_cheese_press = new Machine(
             new powerupjs.Vector2(660, 260),
             "goat_cheese_press",
             0,
             "goatcheese",
             "goatmilk",
-            2,
-            1500000
+            parseInt(code[8]),
+            parseInt(code[9])
           )
-        );
-        barn1.machines.add(
-          new Machine(
+
+          goat_cheese_press.productionDate = parseInt(code[3])
+          goat_cheese_press.containing = parseInt(code[5])
+          if (code[4] === 'true'){
+          goat_cheese_press.producing = true;
+      }
+          barn1.machines.add(
+           goat_cheese_press
+          );
+        }
+        if (code[1] === 'cheese') {
+          var cheese_press = new Machine(
             new powerupjs.Vector2(780, 260),
             "cheese_press",
             0,
             "cheese",
             "milk",
-            2,
-            900000
+            parseInt(code[8]),
+            parseInt(code[9])
           )
-        );
-        barn1.machines.add(
-          new Machine(
+
+          cheese_press.productionDate = parseInt(code[3])
+          cheese_press.containing = parseInt(code[5])
+          if (code[4] === 'true'){
+          cheese_press.producing = true;
+      }
+          barn1.machines.add(
+           cheese_press
+          );
+        }
+        if (code[1] === 'mozzerelacheese') {
+          var mozzerela_cheese_press = new Machine(
             new powerupjs.Vector2(720, 260),
             "mozzerela_cheese_press",
             0,
             "mozzerelacheese",
             "milk",
-            2,
-            2100000
+            parseInt(code[8]),
+            parseInt(code[9])
           )
-        );
+
+          mozzerela_cheese_press.productionDate = parseInt(code[3])
+          mozzerela_cheese_press.containing = parseInt(code[5])
+          if (code[4] === 'true'){
+          mozzerela_cheese_press.producing = true;
+      }
+          barn1.machines.add(
+           mozzerela_cheese_press
+          );
+        }
+        }
       }
       continue
     }
@@ -230,7 +255,7 @@ GameWorld.prototype.loadInteriors = function () {
         0,
         "mozzerelacheese",
         "milk",
-        2,
+        3,
         2100000
       )
     );
