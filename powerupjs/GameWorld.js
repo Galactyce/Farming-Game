@@ -252,7 +252,6 @@ GameWorld.prototype.loadInteriors = function () {
     )
   );
   this.interiors.push(barn1);
-  alert(this.interiors.length)
 
 };
 
