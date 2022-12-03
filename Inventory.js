@@ -58,20 +58,62 @@ function Inventory() {
   this.itemGrid.position = new powerupjs.Vector2(585, 295);
   this.selected = "none";
   this.cropSelected = "none";
-  // for (var i=0; i<this.itemGrid.gridLength; i++) {
-  //   var col = Math.floor(i / this.itemGrid.columns);
-  //   var row = i % this.itemGrid.columns;
-  //   var items = new Array();
-  //   for (var k in sprites.items) {
-  //     items.push(k)
-  //   }
-  //   var randInt = Math.floor(Math.random() * items.length)
-  //   var item = new powerupjs.SpriteGameObject(sprites.items[items[randInt]], 1, 0, ID.layer_overlays);
-  //   this.itemGrid.addAt(item, row, col)
-  // }
+  if (localStorage.inventory === undefined) {
+  for (var i=0; i<5; i++) {
+    var col = Math.floor(i / this.itemGrid.columns);
+    var row = i % this.itemGrid.columns;
+    var item = new powerupjs.SpriteGameObject(sprites.items['wheat_plant'], 1, 0, ID.layer_overlays);
+    this.itemGrid.addAt(item, row, col)
+  }
+}
+this.load()
 }
 
 Inventory.prototype = Object.create(powerupjs.GameObjectList.prototype);
+
+Inventory.prototype.load = function() {
+  var inventoryInfo = localStorage.inventory;
+  if (inventoryInfo !== undefined) {
+  var items = inventoryInfo.split(",")
+  for (var i=0; i<items.length - 1; i++) {
+    var col = Math.floor(i / this.itemGrid.columns);
+    var row = i % this.itemGrid.columns;
+    if (items[i] !== 'null' && items[i] !== 'undefined') {
+      var imgInfo = items[i].split("/");
+      // var imgType = imgInfo[1].split("_"); // Splits the image file name into sections
+      var name = imgInfo[1].split('.')
+    var item = new powerupjs.SpriteGameObject(
+      sprites.items['wheat_plant'],
+      1,
+      0,
+      ID.layer_overlays
+    )
+    item.sprite.imgName = items[i]
+    this.itemGrid.addAt(item, row, col)
+
+    }
+  }
+}
+}
+
+Inventory.prototype.save = function() {
+  var fullString = ""
+  for (var i=0; i<this.itemGrid.gridLength; i++) {
+    
+    var item = this.itemGrid.atIndex(i)
+    var string = ""
+    console.log(item)
+    if (item === null || item === undefined) {
+      string = null
+    }
+    else {
+    string = item.sprite.imgName
+    }
+    fullString += string + ","
+  }
+  localStorage.inventory = fullString
+}
+
 
 Inventory.prototype.draw = function () {
   powerupjs.GameObjectList.prototype.draw.call(this);
@@ -115,6 +157,7 @@ Inventory.prototype.update = function (delta) {
   for (var i = 0; i < this.itemGrid.gridLength; i++) {
     var thing = this.itemGrid.atIndex(i);
     if (thing === null || thing === undefined) continue;
+    if (thing.sprite === null || thing.sprite === undefined) continue;
     var sprite = thing.sprite.imgName;
     var imgInfo = sprite.split("/");
     var imgType = imgInfo[1].split("_"); // Splits the image file name into sections

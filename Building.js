@@ -1,4 +1,4 @@
-function Building(areaIndex, position, building_type, doorHitbox) {
+function Building(areaIndex, position, building_type, doorHitbox, spawnPosition) {
   powerupjs.SpriteGameObject.call(
     this,
     sprites.buildings[building_type],
@@ -11,7 +11,8 @@ function Building(areaIndex, position, building_type, doorHitbox) {
   this.position = position;
   this.building_type = building_type;
   this.doorHitbox = doorHitbox
-  
+  this.spawnPosition = spawnPosition
+
 }
 
 Building.prototype = Object.create(powerupjs.SpriteGameObject.prototype);

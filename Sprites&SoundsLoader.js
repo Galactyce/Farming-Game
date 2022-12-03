@@ -33,8 +33,8 @@ powerupjs.Game.loadAssets = function () {
       left: loadSprite("character_main_walk_left@7.png"),
     },
     tend: {
-      front: loadSprite("character_main_tend_front@5.png")
-    }
+      front: loadSprite("character_main_tend_front@5.png"),
+    },
   };
 
   sprites.nature = {
@@ -79,35 +79,35 @@ powerupjs.Game.loadAssets = function () {
       slot2: loadSprite("inventory_tab2.png"),
     },
     icons: {
-      items: loadSprite('items_icon.png'),
-      projects: loadSprite("projects_icon.png")
+      items: loadSprite("items_icon.png"),
+      projects: loadSprite("projects_icon.png"),
     },
     backdrops: {
-      summer: loadSprite("inventory_summer_backdrop.png")
-    }
+      summer: loadSprite("inventory_summer_backdrop.png"),
+    },
   };
 
   sprites.items = {
-    carrot_plant: loadSprite('items_carrot.png'),
-    tomato_plant: loadSprite('item_tomato.png'),
-    wheat_plant: loadSprite('item_wheat.png'),
-    potato_plant: loadSprite('item_potato.png'),
-    watermelon_plant: loadSprite('item_watermelon.png'),
-    strawberry_plant: loadSprite('item_strawberry.png'),
-    cabbage_plant: loadSprite('item_cabbage.png'),
-    apple_plant: loadSprite('item_apple.png'),
-    avocado_plant: loadSprite('item_avocado.png'),
-    cherry_plant: loadSprite('item_cherry.png'),
-    lemon_plant: loadSprite('item_lemon.png'),
-    orange_plant: loadSprite('item_orange.png'),
-    peach_plant: loadSprite('item_peach.png'),
-    pear_plant: loadSprite('item_pear.png'),
-    plum_plant: loadSprite('item_plum.png'),
-    pumpkin_plant: loadSprite('item_pumpkin.png'),
-    eggplant_plant: loadSprite('item_eggplant.png'),
-    corn_plant: loadSprite('item_corn.png'),
-    radish_plant: loadSprite('item_radish.png'),
-    carrot_seeds: loadSprite('item_seeds_carrot.png'),
+    carrot_plant: loadSprite("items_carrot.png"),
+    tomato_plant: loadSprite("item_tomato.png"),
+    wheat_plant: loadSprite("item_wheat.png"),
+    potato_plant: loadSprite("item_potato.png"),
+    watermelon_plant: loadSprite("item_watermelon.png"),
+    strawberry_plant: loadSprite("item_strawberry.png"),
+    cabbage_plant: loadSprite("item_cabbage.png"),
+    apple_plant: loadSprite("item_apple.png"),
+    avocado_plant: loadSprite("item_avocado.png"),
+    cherry_plant: loadSprite("item_cherry.png"),
+    lemon_plant: loadSprite("item_lemon.png"),
+    orange_plant: loadSprite("item_orange.png"),
+    peach_plant: loadSprite("item_peach.png"),
+    pear_plant: loadSprite("item_pear.png"),
+    plum_plant: loadSprite("item_plum.png"),
+    pumpkin_plant: loadSprite("item_pumpkin.png"),
+    eggplant_plant: loadSprite("item_eggplant.png"),
+    corn_plant: loadSprite("item_corn.png"),
+    radish_plant: loadSprite("item_radish.png"),
+    carrot_seeds: loadSprite("item_seeds_carrot.png"),
     tomato_seeds: loadSprite("item_seeds_tomato.png"),
     strawberry_seeds: loadSprite("item_seeds_strawberry.png"),
     cabbage_seeds: loadSprite("item_seeds_cabbage.png"),
@@ -118,27 +118,33 @@ powerupjs.Game.loadAssets = function () {
     radish_seeds: loadSprite("item_seeds_radish.png"),
     watermelon_seeds: loadSprite("item_seeds_watermelon.png"),
     wheat_seeds: loadSprite("item_seeds_wheat.png"),
-  }
+    milk: loadSprite("item_milk.png"),
+    goatmilk: loadSprite("item_goatmilk.png"),
+    butter: loadSprite("item_butter.png"),
+    cheese: loadSprite("item_cheese.png"),
+    goatcheese: loadSprite("item_goatcheese.png"),
+    mozzerelacheese: loadSprite("item_mozzerelacheese.png")
+  };
 
   sprites.fruits = {
-    carrot: loadSprite('carry_item_carrot.png'),
-    tomato: loadSprite('carry_item_tomato.png'),
-    wheat: loadSprite('carry_item_wheat.png'),
-    potato: loadSprite('carry_item_potato.png'),
-    watermelon: loadSprite('carry_item_watermelon.png'),
-    strawberry: loadSprite('carry_item_strawberry.png'),
-    cabbage: loadSprite('carry_item_cabbage.png'),
-    apple: loadSprite('carry_item_apple.png'),
-    avocado: loadSprite('carry_item_avocado.png'),
-    cherry: loadSprite('carry_item_cherry.png'),
-    lemon: loadSprite('carry_item_lemon.png'),
-    orange: loadSprite('carry_item_orange.png'),
-    peach: loadSprite('carry_item_peach.png'),
-    pear: loadSprite('carry_item_pear.png'),
-    plum: loadSprite('carry_item_plum.png'),
-    pumpkin: loadSprite('carry_item_pumpkin.png'),
-    radish: loadSprite('carry_item_radish.png'),
-  }
+    carrot: loadSprite("carry_item_carrot.png"),
+    tomato: loadSprite("carry_item_tomato.png"),
+    wheat: loadSprite("carry_item_wheat.png"),
+    potato: loadSprite("carry_item_potato.png"),
+    watermelon: loadSprite("carry_item_watermelon.png"),
+    strawberry: loadSprite("carry_item_strawberry.png"),
+    cabbage: loadSprite("carry_item_cabbage.png"),
+    apple: loadSprite("carry_item_apple.png"),
+    avocado: loadSprite("carry_item_avocado.png"),
+    cherry: loadSprite("carry_item_cherry.png"),
+    lemon: loadSprite("carry_item_lemon.png"),
+    orange: loadSprite("carry_item_orange.png"),
+    peach: loadSprite("carry_item_peach.png"),
+    pear: loadSprite("carry_item_pear.png"),
+    plum: loadSprite("carry_item_plum.png"),
+    pumpkin: loadSprite("carry_item_pumpkin.png"),
+    radish: loadSprite("carry_item_radish.png"),
+  };
 
   sprites.seeds = {
     carrot_seeds: loadSprite("plant_seeds_carrot.png"),
@@ -152,7 +158,7 @@ powerupjs.Game.loadAssets = function () {
     radish_seeds: loadSprite("plant_seeds_radish.png"),
     watermelon_seeds: loadSprite("plant_seeds_watermelon.png"),
     wheat_seeds: loadSprite("plant_seeds_wheat.png"),
-  }
+  };
 
   sprites.crops = {
     carrot: loadSprite("crops_carrot@6.png"),
@@ -165,40 +171,90 @@ powerupjs.Game.loadAssets = function () {
     pumpkin: loadSprite("crops_pumpkin@6.png"),
     radish: loadSprite("crops_radish@6.png"),
     watermelon: loadSprite("crops_watermelon@6.png"),
-    wheat: loadSprite("crops_wheat@6.png")
-
-  }
+    wheat: loadSprite("crops_wheat@6.png"),
+  };
 
   sprites.carry_items = {
-    carrot: loadSprite('carry_item_carrot.png'),
-    tomato: loadSprite('carry_item_tomato.png'),
-    wheat: loadSprite('carry_item_wheat.png'),
-    potato: loadSprite('carry_item_potato.png'),
-    watermelon: loadSprite('carry_item_watermelon.png'),
-    strawberry: loadSprite('carry_item_strawberry.png'),
-    cabbage: loadSprite('carry_item_cabbage.png'),
-    apple: loadSprite('carry_item_apple.png'),
-    avocado: loadSprite('carry_item_avocado.png'),
-    cherry: loadSprite('carry_item_cherry.png'),
-    lemon: loadSprite('carry_item_lemon.png'),
-    orange: loadSprite('carry_item_orange.png'),
-    peach: loadSprite('carry_item_peach.png'),
-    pear: loadSprite('carry_item_pear.png'),
-    plum: loadSprite('carry_item_plum.png'),
-    pumpkin: loadSprite('carry_item_pumpkin.png'),
-    radish: loadSprite('carry_item_radish.png')
-  }
+    carrot: loadSprite("carry_item_carrot.png"),
+    tomato: loadSprite("carry_item_tomato.png"),
+    wheat: loadSprite("carry_item_wheat.png"),
+    potato: loadSprite("carry_item_potato.png"),
+    watermelon: loadSprite("carry_item_watermelon.png"),
+    strawberry: loadSprite("carry_item_strawberry.png"),
+    cabbage: loadSprite("carry_item_cabbage.png"),
+    apple: loadSprite("carry_item_apple.png"),
+    avocado: loadSprite("carry_item_avocado.png"),
+    cherry: loadSprite("carry_item_cherry.png"),
+    lemon: loadSprite("carry_item_lemon.png"),
+    orange: loadSprite("carry_item_orange.png"),
+    peach: loadSprite("carry_item_peach.png"),
+    pear: loadSprite("carry_item_pear.png"),
+    plum: loadSprite("carry_item_plum.png"),
+    pumpkin: loadSprite("carry_item_pumpkin.png"),
+    radish: loadSprite("carry_item_radish.png"),
+  };
 
   sprites.buildings = {
-    barn: loadSprite("summer_building_barn.png")
-  }
+    barn: loadSprite("summer_building_barn.png"),
+  };
+
+  sprites.machines = {
+    water_trough: {
+      empty: loadSprite("empty_trough.png"),
+      full: loadSprite("water_trough.png"),
+    },
+    food_trough: {
+      empty: loadSprite("empty_trough.png"),
+      full: loadSprite("food_trough.png"),
+    },
+    butter_churn: {
+      idle: loadSprite("butter_churn_idle.png"),
+      working: loadSprite("butter_churn_working@2.png"),
+    },
+    cheese_press: {
+      idle: loadSprite("cheese_press_idle.png"),
+      working: loadSprite("cheese_press_working@2.png"),
+    },
+    goat_cheese_press: {
+      idle: loadSprite("cheese_press_idle.png"),
+      working: loadSprite("goat_cheese_press_working@2.png")
+    },
+    mozzerela_cheese_press: {
+      idle: loadSprite("cheese_press_idle.png"),
+      working: loadSprite("mozzerela_cheese_press_working@2.png")
+    }
+  };
+
+  sprites.animals = {
+    cow: {
+      front: loadSprite("cow_front_walk@4.png"),
+      back: loadSprite("cow_back_walk@4.png"),
+      right: loadSprite("cow_right_walk@4.png"),
+      left: loadSprite("cow_left_walk@4.png"),
+    },
+    goat: {
+      front: loadSprite("goat_front_walk@4.png"),
+      back: loadSprite("goat_back_walk@4.png"),
+      left: loadSprite("goat_right_walk@4.png"),
+      right: loadSprite("goat_left_walk@4.png"),
+    },
+  };
+
+  sprites.markers = {
+    milk: loadSprite("milk_ready.png"),
+    butter: loadSprite("butter_ready.png"),
+    cheese: loadSprite("cheese_ready.png"),
+    goatmilk: loadSprite("goat_milk_ready.png"),
+    goatcheese: loadSprite("goat_cheese_ready.png"),
+    mozzerelacheese: loadSprite("mozzerela_cheese_ready.png")
+  };
 
   sprites.interiors = {
-    barn: loadSprite("barn_area.png")
-  }
+    barn: loadSprite("barn_area.png"),
+  };
 
   sprites.extras = {
     boundary: loadSprite("boundary.png"),
-    planting_marker: loadSprite('crop_place.png')
+    planting_marker: loadSprite("crop_place.png"),
   };
 };

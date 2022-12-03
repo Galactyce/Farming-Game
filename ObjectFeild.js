@@ -1,17 +1,17 @@
 function ObjectFeild(areaIndex) {
   powerupjs.GameObjectList.call(this, ID.layer_objects, ID.objects);
   this.areaIndex = areaIndex;
-  for (var i=0; i<15; i++) {
+  // for (var i=0; i<15; i++) {
     
-    var items = [];
-    for (var k in sprites.seeds) {
-      items.push(k)
-    } 
-    var randItem = Math.floor(Math.random() * items.length)
-  var item = new SeedPacket(items[randItem])
-  item.position = new powerupjs.Vector2(Math.random() * 700, Math.random() * 700);
-  this.add(item)
-  }
+  //   var items = [];
+  //   for (var k in sprites.seeds) {
+  //     items.push(k)
+  //   } 
+  //   var randItem = Math.floor(Math.random() * items.length)
+  // var item = new SeedPacket(items[randItem])
+  // item.position = new powerupjs.Vector2(Math.random() * 700, Math.random() * 700);
+  // this.add(item)
+  // }
   this.loadObjects()
   
 }

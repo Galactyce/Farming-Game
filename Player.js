@@ -37,7 +37,7 @@ function Player(area) {
     0.09
   );
   this.position = new powerupjs.Vector2(200, 300);
-  this.areaIndex = area
+  this.areaIndex = area;
 }
 
 Player.prototype = Object.create(powerupjs.AnimatedGameObject.prototype);
@@ -103,10 +103,12 @@ Player.prototype.update = function (delta) {
         object.visible &&
         inventory.itemGrid.gameObjects.length < 27
       ) {
-        for (var k = 0; k < inventory.itemGrid.gridLength; k++) {   // Loop through all the item slots
+        for (var k = 0; k < inventory.itemGrid.gridLength; k++) {
+          // Loop through all the item slots
           var col = Math.floor(k / inventory.itemGrid.columns);
           var row = k % inventory.itemGrid.columns;
-          if (inventory.itemGrid.at(row, col) === null) { // If its empty
+          if (inventory.itemGrid.at(row, col) === null) {
+            // If its empty
             object.visible = false;
             inventory.itemGrid.addAt(
               new powerupjs.SpriteGameObject(
@@ -118,7 +120,7 @@ Player.prototype.update = function (delta) {
               row,
               col
             );
-            break;    // So it doesn't fill the whole inventory
+            break; // So it doesn't fill the whole inventory
           }
         }
       } else if (
@@ -148,8 +150,7 @@ Player.prototype.update = function (delta) {
             break;
           }
         }
-      }
-      else if (
+      } else if (
         object.type === "crops" &&
         object.ready &&
         this.boundingBox.intersects(object.boundingBox) &&
@@ -186,16 +187,20 @@ Player.prototype.update = function (delta) {
         powerupjs.Game.gameWorld.saveObjects(); // Save the crops
 
         break;
-      }
-      else if (
-        object.type === "building" &&
-        object.visible
-      ) {
+      } else if (object.type === "building" && object.visible) {
         if (this.boundingBox.intersects(object.doorHitbox)) {
-          powerupjs.Game.gameWorld.currentInteriorArea = object.building_type
+          for (var i = 0; i < powerupjs.Game.gameWorld.interiors.length; i++) {
+            if (
+              powerupjs.Game.gameWorld.interiors[i].type === object.building_type
+            ) {
+              powerupjs.Game.gameWorld.interiors[i].player.position =
+                powerupjs.Game.gameWorld.interiors[i].spawnPosition.copy();
+            }
+          }
+          powerupjs.Game.gameWorld.currentInteriorArea = object.building_type;
+
         }
         break;
-
       }
     }
   }
@@ -225,7 +230,10 @@ Player.prototype.update = function (delta) {
     }
   }
 
-  var interior_bounds = powerupjs.Game.gameWorld.interiors[0].find(ID.interior_boundaries)
+  var interior_bounds = powerupjs.Game.gameWorld.interiors[0].find(
+    ID.interior_boundaries
+  );
+  if (powerupjs.Game.gameWorld.currentInteriorArea !== 'none') {
   for (var i = 0; i < interior_bounds.gameObjects.length; i++) {
     // Boundary effects
     if (interior_bounds.gameObjects[i] === undefined) continue;
@@ -248,6 +256,7 @@ Player.prototype.update = function (delta) {
       }
     }
   }
+}
 
   var map = powerupjs.Game.gameWorld.map;
   if (this.position.y < 0) {
