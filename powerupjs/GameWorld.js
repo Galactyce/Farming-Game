@@ -31,11 +31,15 @@ function GameWorld(layer) {
   var area = this.map.areas[this.map.currentAreaIndex];
   this.inventory = new Inventory();
   this.inventory.visible = false;
-  this.interiors = new Array();
+  this.selling = false;
 
+  this.interiors = new Array();
+  this.currentTimeBubble = 'none'
   this.currentInteriorArea = "none";
   this.specialMode = "none";
   this.saveDate = Date.now();
+
+  this.cash = 0;
 
   this.loadInteriors();
 }
@@ -53,6 +57,11 @@ GameWorld.prototype.draw = function () {
     }
   }
   this.inventory.draw();
+
+  if (this.selling) {
+    this.inventory.visible = true
+    this.inventory.mode = 'selling'
+  }
 };
 
 GameWorld.prototype.loadInteriors = function () {
@@ -60,24 +69,29 @@ GameWorld.prototype.loadInteriors = function () {
   var barn1 = new InteriorArea(
     "barn",
     new powerupjs.Vector2(700, 540),
+    new powerupjs.Rectangle(300, 600, 500, 20),
+    15
+  );
+
+  var barn2 = new InteriorArea(
+    "barn2",
+    new powerupjs.Vector2(700, 540),
     new powerupjs.Rectangle(300, 600, 500, 20)
   );
 
-    console.log(localStorage.machines)
+  console.log(localStorage.machines);
 
   if (localStorage.machines !== undefined) {
     var fullCode = localStorage.machines;
     var splitCode = fullCode.split("|");
-    console.log(splitCode.length)
+    console.log(splitCode.length);
     for (var i = 0; i < splitCode.length; i++) {
       if (splitCode[i] === "barn") {
         var areaCodes = splitCode[i + 1].split("/");
-        console.log(areaCodes.length)
-
+        console.log(areaCodes.length);
 
         for (var k = 0; k < areaCodes.length; k++) {
           var code = areaCodes[k].split(",");
-          console.log(code)
           if (code[1] === "water") {
             var trough = new Trough(
               new powerupjs.Vector2(parseInt(code[5]), parseInt(code[6])),
@@ -99,122 +113,173 @@ GameWorld.prototype.loadInteriors = function () {
             trough2.remaining = parseInt(code[4]);
             barn1.machines.add(trough2);
           }
-          if (code[1] === 'butter') {
-            console.log(code)
-          var butter_churn =  new Machine(
-            new powerupjs.Vector2(600, 300),
-            "butter_churn",
-            0,
-            "butter",
-            "milk",
-            parseInt(code[8]),
-            parseInt(code[9])
-          )
-          butter_churn.productionDate = parseInt(code[3])
-          butter_churn.containing = parseInt(code[5])
-          if (code[4] === 'true'){
-          butter_churn.producing = true;
-      }
-          barn1.machines.add(
-           butter_churn
-          );
-        }
-        if (code[1] === 'goatcheese') {
-          var goat_cheese_press = new Machine(
-            new powerupjs.Vector2(660, 260),
-            "goat_cheese_press",
-            0,
-            "goatcheese",
-            "goatmilk",
-            parseInt(code[8]),
-            parseInt(code[9])
-          )
+          if (code[1] === "butter") {
+            console.log(code);
+            var butter_churn = new Machine(
+              new powerupjs.Vector2(600, 300),
+              "butter_churn",
+              0,
+              "butter",
+              "milk",
+              parseInt(code[8]),
+              parseInt(code[9])
+            );
+            butter_churn.productionDate = parseInt(code[3]);
+            butter_churn.containing = parseInt(code[5]);
+            if (code[4] === "true") {
+              butter_churn.producing = true;
+            }
+            barn1.machines.add(butter_churn);
+          }
+          if (code[1] === "goatcheese") {
+            var goat_cheese_press = new Machine(
+              new powerupjs.Vector2(660, 260),
+              "goat_cheese_press",
+              0,
+              "goatcheese",
+              "goatmilk",
+              parseInt(code[8]),
+              parseInt(code[9])
+            );
 
-          goat_cheese_press.productionDate = parseInt(code[3])
-          goat_cheese_press.containing = parseInt(code[5])
-          if (code[4] === 'true'){
-          goat_cheese_press.producing = true;
-      }
-          barn1.machines.add(
-           goat_cheese_press
-          );
-        }
-        if (code[1] === 'cheese') {
-          var cheese_press = new Machine(
-            new powerupjs.Vector2(780, 260),
-            "cheese_press",
-            0,
-            "cheese",
-            "milk",
-            parseInt(code[8]),
-            parseInt(code[9])
-          )
+            goat_cheese_press.productionDate = parseInt(code[3]);
+            goat_cheese_press.containing = parseInt(code[5]);
+            if (code[4] === "true") {
+              goat_cheese_press.producing = true;
+            }
+            barn1.machines.add(goat_cheese_press);
+          }
+          if (code[1] === "cheese") {
+            var cheese_press = new Machine(
+              new powerupjs.Vector2(780, 260),
+              "cheese_press",
+              0,
+              "cheese",
+              "milk",
+              parseInt(code[8]),
+              parseInt(code[9])
+            );
 
-          cheese_press.productionDate = parseInt(code[3])
-          cheese_press.containing = parseInt(code[5])
-          if (code[4] === 'true'){
-          cheese_press.producing = true;
-      }
-          barn1.machines.add(
-           cheese_press
-          );
-        }
-        if (code[1] === 'mozzerelacheese') {
-          var mozzerela_cheese_press = new Machine(
-            new powerupjs.Vector2(720, 260),
-            "mozzerela_cheese_press",
-            0,
-            "mozzerelacheese",
-            "milk",
-            parseInt(code[8]),
-            parseInt(code[9])
-          )
+            cheese_press.productionDate = parseInt(code[3]);
+            cheese_press.containing = parseInt(code[5]);
 
-          mozzerela_cheese_press.productionDate = parseInt(code[3])
-          mozzerela_cheese_press.containing = parseInt(code[5])
-          if (code[4] === 'true'){
-          mozzerela_cheese_press.producing = true;
-      }
-          barn1.machines.add(
-           mozzerela_cheese_press
-          );
+            if (code[4] === "true") {
+              cheese_press.producing = true;
+            }
+            barn1.machines.add(cheese_press);
+          }
+          if (code[1] === "mozzerelacheese") {
+            var mozzerela_cheese_press = new Machine(
+              new powerupjs.Vector2(720, 260),
+              "mozzerela_cheese_press",
+              0,
+              "mozzerelacheese",
+              "milk",
+              parseInt(code[8]),
+              parseInt(code[9])
+            );
+
+            mozzerela_cheese_press.productionDate = parseInt(code[3]);
+            mozzerela_cheese_press.containing = parseInt(code[5]);
+
+            if (code[4] === "true") {
+              mozzerela_cheese_press.producing = true;
+            }
+            barn1.machines.add(mozzerela_cheese_press);
+          }
         }
+      } else if (splitCode[i] === "barn2") {
+        var areaCodes = splitCode[i + 1].split("/");
+        console.log(areaCodes.length);
+
+        for (var k = 0; k < areaCodes.length; k++) {
+          var code = areaCodes[k].split(",");
+          if (code[1] === "water") {
+            var trough = new Trough(
+              new powerupjs.Vector2(parseInt(code[5]), parseInt(code[6])),
+              code[1],
+              code[2],
+              "barn2"
+            );
+            trough.capacity = parseInt(code[3]);
+            trough.remaining = parseInt(code[4]);
+            barn2.machines.add(trough);
+          } else if (code[1] === "food") {
+            var trough2 = new Trough(
+              new powerupjs.Vector2(parseInt(code[5]), parseInt(code[6])),
+              code[1],
+              code[2],
+              "barn2"
+            );
+            trough2.capacity = parseInt(code[3]);
+            trough2.remaining = parseInt(code[4]);
+            barn2.machines.add(trough2);
+          }
+          if (code[1] === 'yarn') {
+            var spindle = new Machine(
+              new powerupjs.Vector2(600, 300),
+              "spindle",
+              1,
+              "yarn",
+              "wool",
+              parseInt(code[8]),
+              parseInt(code[9])
+            );
+
+            spindle.productionDate = parseInt(code[3]);
+            spindle.containing = parseInt(code[5]);
+            if (code[4] === "true") {
+              spindle.producing = true;
+            }
+            barn2.machines.add(spindle);
+          }
+          if (code[1] === 'cloth') {
+            var colthmaker = new Machine(
+              new powerupjs.Vector2(660, 300),
+              "clothmaker",
+              1,
+              "cloth",
+              "yarn",
+              parseInt(code[8]),
+              parseInt(code[9])
+            );
+
+            colthmaker.productionDate = parseInt(code[3]);
+            colthmaker.containing = parseInt(code[5]);
+            if (code[4] === "true") {
+              colthmaker.producing = true;
+            }
+            barn2.machines.add(colthmaker);
+          }
         }
       }
-      continue
+      continue;
     }
-    console.log(barn1.machines)
-    
-  }
-  else {
-      var trough = new Trough(
-        new powerupjs.Vector2(400, 360),
-        'food',
-        'cow',
-        "barn"
-      );
-      barn1.machines.add(trough);
-      trough2 = new Trough(
-        new powerupjs.Vector2(500, 360),
-        'water',
-        'cow',
-        "barn"
-      );
-     
-      barn1.machines.add(trough2);
-    
+    console.log(barn1.machines);
+  } else {
+    var trough = new Trough(
+      new powerupjs.Vector2(400, 360),
+      "food",
+      "cow",
+      "barn"
+    );
+    barn1.machines.add(trough);
+    trough2 = new Trough(
+      new powerupjs.Vector2(500, 360),
+      "water",
+      "cow",
+      "barn"
+    );
+
+    barn1.machines.add(trough2);
+
     barn1.machines.add(
-      new Trough(
-        new powerupjs.Vector2(870, 360),
-        "water",
-        "goats",
-        "barn"
-      )
+      new Trough(new powerupjs.Vector2(870, 360), "water", "goats", "barn")
     );
     barn1.machines.add(
       new Trough(new powerupjs.Vector2(970, 360), "food", "goats", "barn")
     );
-  
+
     barn1.machines.add(
       new Machine(
         new powerupjs.Vector2(600, 300),
@@ -259,14 +324,70 @@ GameWorld.prototype.loadInteriors = function () {
         2100000
       )
     );
+
+    barn1.add(
+      new Animal("cow", 0, new powerupjs.Rectangle(450, 450, 300, 100), "milk")
+    );
+    barn1.add(
+      new Animal(
+        "goat",
+        0,
+        new powerupjs.Rectangle(450, 450, 300, 100),
+        "goatmilk"
+      )
+    );
+
+    // barn 2
+
+    var trough = new Trough(
+      new powerupjs.Vector2(400, 360),
+      "food",
+      "pig",
+      "barn2"
+    );
+    barn2.machines.add(trough);
+    trough2 = new Trough(
+      new powerupjs.Vector2(500, 360),
+      "water",
+      "pig",
+      "barn2"
+    );
+
+    barn2.machines.add(trough2);
+
+    barn2.machines.add(
+      new Trough(new powerupjs.Vector2(870, 360), "water", "sheep", "barn2")
+    );
+    barn2.machines.add(
+      new Trough(new powerupjs.Vector2(970, 360), "food", "sheep", "barn2")
+    );
+
+    barn2.machines.add(
+      new Machine(
+        new powerupjs.Vector2(600, 300),
+        "spindle",
+        1,
+        "yarn",
+        "wool",
+        2,
+        12000
+      )
+    );
+
+    barn2.machines.add(
+      new Machine(
+        new powerupjs.Vector2(660, 300),
+        "clothmaker",
+        1,
+        "cloth",
+        "yarn",
+        2,
+        12000
+      )
+    );
   }
   barn1.add(
-    new Animal(
-      "cow",
-      0,
-      new powerupjs.Rectangle(450, 450, 300, 100),
-      "milk"
-    )
+    new Animal("cow", 0, new powerupjs.Rectangle(450, 450, 300, 100), "milk")
   );
   barn1.add(
     new Animal(
@@ -276,23 +397,32 @@ GameWorld.prototype.loadInteriors = function () {
       "goatmilk"
     )
   );
-  this.interiors.push(barn1);
+  barn2.add(
+    new Animal(
+      "sheep",
+      1,
+      new powerupjs.Rectangle(450, 450, 300, 100),
+      "wool"
+    )
+  );
 
+  this.interiors.push(barn1);
+  this.interiors.push(barn2);
 };
 
 GameWorld.prototype.saveMachines = function () {
   var fullString = "";
-  console.log(fullString)
-  localStorage.machines = undefined
+  console.log(fullString);
+  localStorage.machines = undefined;
   for (var i = 0; i < this.interiors.length; i++) {
     var areaString = "|" + this.interiors[i].type + "|";
     var interior = this.interiors[i];
 
-    console.log(interior.machines)
+    console.log(interior.machines);
 
     for (var k = 0; k < interior.machines.gameObjects.length; k++) {
       var object = interior.machines.gameObjects[k];
-     
+
       if (object.machineType === "machine") {
         var string =
           object.area +
@@ -313,7 +443,8 @@ GameWorld.prototype.saveMachines = function () {
           "," +
           object.requireAmount +
           "," +
-          object.productionTime + 
+          object.productionTime +
+
           "/";
       } else if (object.machineType === "trough") {
         var string =
@@ -327,9 +458,9 @@ GameWorld.prototype.saveMachines = function () {
           "," +
           object.remaining +
           "," +
-          object.position.x + 
-          "," + 
-          object.position.y + 
+          object.position.x +
+          "," +
+          object.position.y +
           "/";
       }
       console.log(string);
@@ -337,7 +468,7 @@ GameWorld.prototype.saveMachines = function () {
     }
 
     fullString += areaString;
-    console.log(areaString)
+    console.log(areaString);
   }
   console.log(fullString);
 
@@ -358,10 +489,10 @@ GameWorld.prototype.update = function (delta) {
 
   if (Date.now() > this.saveDate + 20000) {
     this.saveMachines();
-    this.saveDate = Date.now()
+    this.saveDate = Date.now();
   }
 
-  if (powerupjs.Keyboard.pressed(69) && this.map.mode === "playing") {
+  if (powerupjs.Keyboard.pressed(69) && this.map.mode === "playing" && !this.selling) {
     this.inventory.visible = !this.inventory.visible;
     this.specialMode === "none";
   }

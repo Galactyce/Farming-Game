@@ -24,7 +24,6 @@ Trough.prototype.update = function (delta) {
   for (var i = 0; i < powerupjs.Game.gameWorld.interiors.length; i++) {
     if (powerupjs.Game.gameWorld.interiors[i].type === this.areaIndex) {
       var player = powerupjs.Game.gameWorld.interiors[i].player;
-
       if (
         player.boundingBox.intersects(this.boundingBox) &&
         powerupjs.Keyboard.pressed(32)

@@ -445,7 +445,7 @@ var powerupjs = (function (powerupjs) {
     if (!this.visible) return;
     powerupjs.Canvas.drawText(
       this._contents,
-      this.worldPosition,
+      this.position,
       this.origin,
       this.color,
       this._align,
@@ -551,13 +551,13 @@ var powerupjs = (function (powerupjs) {
     this.id = id;
     this.running = true;
     this.multiplier = 1;
+    this.timeLeft = 0
   }
 
   TimerGameObject.prototype = Object.create(powerupjs.Label.prototype);
 
   TimerGameObject.prototype.draw = function () {
     powerupjs.Label.prototype.draw.call(this);
-    this.color = "white";
     if (!this.timeUp) {
       var minutes = Math.floor(this.timeLeft / 60);
       var seconds = Math.ceil(this.timeLeft % 60);
@@ -565,9 +565,7 @@ var powerupjs = (function (powerupjs) {
       if (seconds < 10) {
         this.text = minutes + ":0" + seconds;
       }
-      if (seconds <= 10 && seconds % 2) {
-        this.color = "red";
-      }
+     
     }
     if (this.timeUp) {
       this.text = "0:00";

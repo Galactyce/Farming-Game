@@ -122,10 +122,9 @@ Animal.prototype.update = function (delta) {
     this.idleDuration = Math.random() * 2000 + 1000;
   }
 
-  var interiors = powerupjs.Game.gameWorld.interiors[0];
+  var interiors = powerupjs.Game.gameWorld.interiors[this.area];
   var player = powerupjs.Game.gameWorld.interiors[this.area].player;
   var inventory = powerupjs.Game.gameWorld.inventory.itemGrid;
-
   if (
     player.boundingBox.intersects(this.boundingBox) &&
     powerupjs.Keyboard.pressed(32) &&
@@ -146,7 +145,7 @@ Animal.prototype.update = function (delta) {
     var col = Math.floor(k / inventory.columns);
     var row = k % inventory.columns;
 
-    if (inventory.at(row, col) === null) {
+    if (inventory.at(row, col) === null || inventory.at(row, col) === undefined) {
 
       inventory.addAt(
         new powerupjs.SpriteGameObject(
@@ -161,12 +160,14 @@ Animal.prototype.update = function (delta) {
       break;
     }
   }
+  powerupjs.Game.gameWorld.inventory.save()
+
     this.productionDate = Date.now();
     this.produceReady = false;
     this.producing = false
   }
 
-  for (var i = 0; i < interiors.machines.gameObjects.length - 1; i++) {
+  for (var i = 0; i < interiors.machines.gameObjects.length; i++) {
     if (interiors.machines.at(i).type === "food") {
       if (interiors.machines.at(i).remaining <= 0 && !this.producing) {
         this.productionDate = Date.now();

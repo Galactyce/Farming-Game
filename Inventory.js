@@ -28,29 +28,29 @@ function Inventory() {
   );
   this.projectsButton.position = new powerupjs.Vector2(715, 175);
   this.buttons.add(this.projectsButton);
-  this.add(this.buttons);
 
-  var backdrop = new powerupjs.SpriteGameObject(
+  if (this.mode === "selling") {
+  }
+
+  this.backdrop = new powerupjs.SpriteGameObject(
     sprites.inventory["backdrops"].summer,
     1,
     0,
     ID.layer_overlays
   );
-  backdrop.position = new powerupjs.Vector2(408, 303);
-  this.add(backdrop);
+  this.backdrop.position = new powerupjs.Vector2(408, 303);
 
-  var paperDoll = new powerupjs.SpriteGameObject(
+  this.paperDoll = new powerupjs.SpriteGameObject(
     sprites.main_character["idle"].front,
     1.15,
     0,
     ID.layer_overlays_1
   );
-  paperDoll.origin = new powerupjs.Vector2(
-    paperDoll.width / 2,
-    paperDoll.height / 2
+  this.paperDoll.origin = new powerupjs.Vector2(
+    this.paperDoll.width / 2,
+    this.paperDoll.height / 2
   );
-  paperDoll.position = new powerupjs.Vector2(387, 330);
-  this.add(paperDoll);
+  this.paperDoll.position = new powerupjs.Vector2(387, 330);
 
   this.itemGrid = new powerupjs.GameObjectGrid(3, 9, ID.layer_overlays);
   this.itemGrid.cellWidth = 63;
@@ -58,75 +58,202 @@ function Inventory() {
   this.itemGrid.position = new powerupjs.Vector2(585, 295);
   this.selected = "none";
   this.cropSelected = "none";
+  var count = 0;
   if (localStorage.inventory === undefined) {
-  for (var i=0; i<5; i++) {
-    var col = Math.floor(i / this.itemGrid.columns);
-    var row = i % this.itemGrid.columns;
-    var item = new powerupjs.SpriteGameObject(sprites.items['wheat_plant'], 1, 0, ID.layer_overlays);
-    this.itemGrid.addAt(item, row, col)
+    for (var i = 0; i < this.itemGrid.gridLength; i++) {
+      if (
+        this.itemGrid.atIndex(i) === undefined ||
+        this.itemGrid.atIndex(i) === null
+      ) {
+        var col = Math.floor(i / this.itemGrid.columns);
+        var row = i % this.itemGrid.columns;
+        var item = new powerupjs.SpriteGameObject(
+          sprites.items["wheat"],
+          1,
+          0,
+          ID.layer_overlays
+        );
+        this.itemGrid.addAt(item, row, col);
+        count++;
+        if (count >= 15) break;
+      }
+    }
   }
-}
-this.load()
+  this.moneyLabel = new powerupjs.SpriteGameObject(
+    sprites.extras["label"],
+    1,
+    0,
+    ID.layer_overlays_1
+  );
+
+  this.moneyLabel.position = new powerupjs.Vector2(87, 130);
+
+  this.rewardLabel = new powerupjs.SpriteGameObject(
+    sprites.extras["label"],
+    1,
+    0,
+    ID.layer_overlays_1
+  );
+  this.rewardLabel.position = new powerupjs.Vector2(87, 330);
+
+  this.sellingSelected = new Array();
+  this.reward = 0
+  this.load();
 }
 
 Inventory.prototype = Object.create(powerupjs.GameObjectList.prototype);
 
-Inventory.prototype.load = function() {
+Inventory.prototype.load = function () {
   var inventoryInfo = localStorage.inventory;
   if (inventoryInfo !== undefined) {
-  var items = inventoryInfo.split(",")
-  for (var i=0; i<items.length - 1; i++) {
-    var col = Math.floor(i / this.itemGrid.columns);
-    var row = i % this.itemGrid.columns;
-    if (items[i] !== 'null' && items[i] !== 'undefined') {
-      var imgInfo = items[i].split("/");
-       var imgType = imgInfo[1].split("_"); // Splits the image file name into sections
-      var name = imgInfo[1].split('.')
+    var items = inventoryInfo.split(",");
+    for (var i = 0; i < items.length - 1; i++) {
+      var col = Math.floor(i / this.itemGrid.columns);
+      var row = i % this.itemGrid.columns;
+      if (items[i] !== "null" && items[i] !== "undefined") {
+        var imgInfo = items[i].split("/");
+        var imgType = imgInfo[1].split("_"); // Splits the image file name into sections
+        var name = imgType[1].split(".");
+        console.log(name[0]);
+        var item = new powerupjs.SpriteGameObject(
+          sprites.items[name[0]],
+          1,
+          0,
+          ID.layer_overlays
+        );
 
-    var item = new powerupjs.SpriteGameObject(
-      sprites.items[name[0]],
-      1,
-      0,
-      ID.layer_overlays
-    )
- 
-    this.itemGrid.addAt(item, row, col)
-
+        this.itemGrid.addAt(item, row, col);
+      }
     }
   }
-}
-}
+};
 
-Inventory.prototype.save = function() {
-  var fullString = ""
-  for (var i=0; i<this.itemGrid.gridLength; i++) {
-    
-    var item = this.itemGrid.atIndex(i)
-    var string = ""
-    console.log(item)
+Inventory.prototype.save = function () {
+  var fullString = "";
+  for (var i = 0; i < this.itemGrid.gridLength; i++) {
+    var item = this.itemGrid.atIndex(i);
+    var string = "";
+    console.log(item);
     if (item === null || item === undefined) {
-      string = null
+      string = null;
+    } else {
+      string = item.sprite.imgName;
     }
-    else {
-    string = item.sprite.imgName
-    }
-    fullString += string + ","
+    fullString += string + ",";
   }
-  localStorage.inventory = fullString
-}
-
+  localStorage.inventory = fullString;
+};
 
 Inventory.prototype.draw = function () {
   powerupjs.GameObjectList.prototype.draw.call(this);
 
-  if (this.mode === "items" && this.visible) {
+  if (this.visible) {
+    this.moneyLabel.draw();
+    var money = new powerupjs.Label();
+    money.position = new powerupjs.Vector2(167, 140);
+    money.text = powerupjs.Game.gameWorld.cash;
+    money._align = "center";
+    money.draw();
+    var moneySprite = new powerupjs.SpriteGameObject(
+      sprites.extras["coin"],
+      0.8,
+      0,
+      ID.layer_overlays_1
+    );
+    moneySprite.position = new powerupjs.Vector2(245, 174);
+    moneySprite.draw();
+  }
+
+  if (
+    (this.mode === "items" && this.visible) ||
+    powerupjs.Game.gameWorld.selling
+  ) {
     this.itemGrid.draw();
-    console.log(this.itemGrid)
+  }
+  if (this.mode !== "selling" && this.visible) {
+    this.buttons.draw();
+    this.backdrop.draw();
+    this.paperDoll.draw();
+  }
+  if (this.mode === "selling" && this.visible) {
+    this.frame.sprite = sprites.inventory["selling"];
+    this.frame.position = new powerupjs.Vector2(345, 237);
+    this.itemGrid.position = new powerupjs.Vector2(385, 295);
+
+    this.rewardLabel.draw();
+
+    var rewardText = new powerupjs.Label();
+    rewardText.position = new powerupjs.Vector2(147, 340);
+    rewardText.text = "+" + this.reward;
+    rewardText.draw()
+
+    for (var i = 0; i < this.sellingSelected.length; i++) {
+      var itemIndex = this.sellingSelected[i];
+      var marker = new powerupjs.SpriteGameObject(
+        sprites.extras["item_select"],
+        1,
+        0,
+        ID.layer_overlays_1
+      );
+      var row = Math.floor(this.sellingSelected[i] / this.itemGrid.columns);
+      var col = this.sellingSelected[i] % this.itemGrid.columns;
+      marker.position = new powerupjs.Vector2(
+        this.itemGrid.position.x + col * this.itemGrid.cellWidth,
+        this.itemGrid.position.y + row * this.itemGrid.cellHeight
+      );
+      marker.draw();
+    }
+  } else {
+    this.frame.sprite = sprites.inventory["tabs"].slot1;
+    this.frame.position = new powerupjs.Vector2(300, 100);
+    this.itemGrid.position = new powerupjs.Vector2(585, 295);
   }
 };
 
 Inventory.prototype.update = function (delta) {
   powerupjs.GameObjectList.prototype.update.call(this, delta);
+  if (this.mode !== "selling" && this.visible) {
+    this.buttons.update(delta);
+    this.backdrop.update(delta);
+    this.paperDoll.update(delta);
+  }
+
+  if (this.mode === "selling") {
+    for (var i = 0; i < this.itemGrid.gridLength; i++) {
+      var thing = this.itemGrid.atIndex(i);
+      if (thing === null || thing === undefined) continue;
+      if (thing.sprite === null || thing.sprite === undefined) continue;
+      var sprite = thing.sprite.imgName;
+      var imgInfo = sprite.split("/");
+      var imgType = imgInfo[1].split("_"); // Splits the image file name into sections
+      var name = imgType[1].split("."); // Remove .png
+      if (
+        thing.boundingBox.contains(powerupjs.Mouse.position) &&
+        powerupjs.Mouse._left.pressed
+      ) {
+        this.sellingSelected.push(i);
+        this.reward += sellPricing[name[0]];
+      }
+    }
+    if (powerupjs.Keyboard.pressed(13)) {
+      for (var i = 0; i < this.sellingSelected.length; i++) {
+        var thing = this.itemGrid.atIndex(this.sellingSelected[i]);
+        var sprite = thing.sprite.imgName;
+        var imgInfo = sprite.split("/");
+        var imgType = imgInfo[1].split("_"); // Splits the image file name into sections
+        var name = imgType[1].split("."); // Remove .png
+        powerupjs.Game.gameWorld.cash += sellPricing[name[0]];
+        thing.visible = false;
+        thing = null;
+      }
+      this.visible = false;
+      powerupjs.Game.gameWorld.selling = false
+      this.mode = 'items'
+      this.reward = 0;
+      this.sellingSelected = new Array()
+    }
+  }
+
   if (
     this.itemsButton.boundingBox.contains(powerupjs.Mouse.position) &&
     powerupjs.Mouse._left.pressed
@@ -192,11 +319,11 @@ Inventory.prototype.update = function (delta) {
     var tileIndex = terrainTiles.at(
       Math.floor((player.position.x + 15) / 32),
       Math.floor((player.position.y + 20) / 32)
-    )
+    );
     var terrainType = tileIndex.terrainType; // Dirt? Path? Normal?
-   
-    var tileSheetIndex = tileIndex.sheetIndex
-  
+
+    var tileSheetIndex = tileIndex.sheetIndex;
+
     if (
       powerupjs.Keyboard.pressed(32) &&
       terrainType === "path_edge_dirt" &&

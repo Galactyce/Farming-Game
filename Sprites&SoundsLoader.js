@@ -85,6 +85,7 @@ powerupjs.Game.loadAssets = function () {
     backdrops: {
       summer: loadSprite("inventory_summer_backdrop.png"),
     },
+    selling: loadSprite("selling_grid.png")
   };
 
   sprites.items = {
@@ -119,11 +120,14 @@ powerupjs.Game.loadAssets = function () {
     watermelon_seeds: loadSprite("item_watermelon_seeds.png"),
     wheat_seeds: loadSprite("item_wheat_seeds.png"),
     milk: loadSprite("item_milk.png"),
+    wool: loadSprite("item_wool.png"),
     goatmilk: loadSprite("item_goatmilk.png"),
     butter: loadSprite("item_butter.png"),
     cheese: loadSprite("item_cheese.png"),
     goatcheese: loadSprite("item_goatcheese.png"),
-    mozzerelacheese: loadSprite("item_mozzerelacheese.png")
+    mozzerelacheese: loadSprite("item_mozzerelacheese.png"),
+    yarn: loadSprite("item_yarn.png"),
+    cloth: loadSprite("item_cloth.png")
   };
 
   sprites.fruits = {
@@ -147,17 +151,17 @@ powerupjs.Game.loadAssets = function () {
   };
 
   sprites.seeds = {
-    carrot_seeds: loadSprite("plant_carrot_seeds.png"),
-    tomato_seeds: loadSprite("plant_tomato_seeds.png"),
-    strawberry_seeds: loadSprite("plant_strawberry_seeds.png"),
-    cabbage_seeds: loadSprite("plant_cabbage_seeds.png"),
-    corn_seeds: loadSprite("plant_corn_seeds.png"),
-    eggplant_seeds: loadSprite("plant_eggplant_seeds.png"),
-    potato_seeds: loadSprite("plant_potato_seeds.png"),
-    pumpkin_seeds: loadSprite("plant_pumpkin_seeds.png"),
-    radish_seeds: loadSprite("plant_radish_seeds.png"),
-    watermelon_seeds: loadSprite("plant_watermelon_seeds.png"),
-    wheat_seeds: loadSprite("plant_wheat_seeds.png"),
+    carrot_seeds: loadSprite("item_carrot_seeds.png"),
+    tomato_seeds: loadSprite("item_tomato_seeds.png"),
+    strawberry_seeds: loadSprite("item_strawberry_seeds.png"),
+    cabbage_seeds: loadSprite("item_cabbage_seeds.png"),
+    corn_seeds: loadSprite("item_corn_seeds.png"),
+    eggplant_seeds: loadSprite("item_eggplant_seeds.png"),
+    potato_seeds: loadSprite("item_potato_seeds.png"),
+    pumpkin_seeds: loadSprite("item_pumpkin_seeds.png"),
+    radish_seeds: loadSprite("item_radish_seeds.png"),
+    watermelon_seeds: loadSprite("item_watermelon_seeds.png"),
+    wheat_seeds: loadSprite("item_wheat_seeds.png"),
   };
 
   sprites.crops = {
@@ -196,6 +200,9 @@ powerupjs.Game.loadAssets = function () {
 
   sprites.buildings = {
     barn: loadSprite("summer_building_barn.png"),
+    barn2: loadSprite("summer_building_barn2.png"),
+    market: loadSprite("summer_building_market.png"),
+
   };
 
   sprites.machines = {
@@ -222,6 +229,14 @@ powerupjs.Game.loadAssets = function () {
     mozzerela_cheese_press: {
       idle: loadSprite("cheese_press_idle.png"),
       working: loadSprite("mozzerela_cheese_press_working@2.png")
+    },
+    spindle: {
+      idle: loadSprite('spindle_idle.png'),
+      working: loadSprite("spindle_working@8.png")
+    },
+    clothmaker: {
+      idle: loadSprite('clothmaker_idle.png'),
+      working: loadSprite("clothmaker_working@34.png")
     }
   };
 
@@ -238,23 +253,44 @@ powerupjs.Game.loadAssets = function () {
       left: loadSprite("goat_right_walk@4.png"),
       right: loadSprite("goat_left_walk@4.png"),
     },
+    sheep: {
+      front: loadSprite("sheep_front_walk@4.png"),
+      back: loadSprite("sheep_back_walk@4.png"),
+      left: loadSprite("sheep_right_walk@4.png"),
+      right: loadSprite("sheep_left_walk@4.png"),
+    }
   };
+
+  sprites.require_bubbles = {
+    milk: loadSprite("requires_milk_bubble.png"),
+    goatmilk: loadSprite("requires_goatmilk_bubble.png")
+
+  }
 
   sprites.markers = {
     milk: loadSprite("milk_ready.png"),
     butter: loadSprite("butter_ready.png"),
+    wool: loadSprite("wool_ready.png"),
+    yarn: loadSprite("yarn_ready.png"),
     cheese: loadSprite("cheese_ready.png"),
     goatmilk: loadSprite("goat_milk_ready.png"),
     goatcheese: loadSprite("goat_cheese_ready.png"),
-    mozzerelacheese: loadSprite("mozzerela_cheese_ready.png")
+    mozzerelacheese: loadSprite("mozzerela_cheese_ready.png"),
+    cloth: loadSprite("cloth_ready.png")
   };
 
   sprites.interiors = {
     barn: loadSprite("barn_area.png"),
+    barn2: loadSprite("barn_area.png"),
+
   };
 
   sprites.extras = {
+    coin: loadSprite("coin.png"),
     boundary: loadSprite("boundary.png"),
     planting_marker: loadSprite("crop_place.png"),
+    timer_bubble: loadSprite("timer_bubble.png"),
+    label: loadSprite("label.png"),
+    item_select: loadSprite("item_select.png")
   };
 };

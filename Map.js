@@ -19,7 +19,28 @@ function Map() {
     new powerupjs.Vector2(700, 500),
    
   );
+
+  var barn2 = new Building(
+    14,
+    new powerupjs.Vector2(100, 100),
+    "barn2",
+    new powerupjs.Rectangle(110, 300, 100, 20),
+    new powerupjs.Vector2(700, 500),
+   
+  );
+
+  var market = new Market(
+    15,
+    new powerupjs.Vector2(600, 100),
+    "market",
+    new powerupjs.Rectangle(610, 300, 100, 20)   
+  );
   this.areas[15].find(ID.objects).add(barn);
+  this.areas[14].find(ID.objects).add(barn2);
+  this.areas[15].find(ID.objects).add(market);
+
+
+
 }
 
 Map.prototype = Object.create(powerupjs.GameObjectList.prototype);

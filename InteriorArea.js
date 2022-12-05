@@ -6,6 +6,7 @@ function InteriorArea(type, spawnPosition, exitHitbox) {
     0,
     ID.layer_background
   );
+  console.log(backdrop)
   backdrop.origin = backdrop.center;
   backdrop.position = new powerupjs.Vector2(
     powerupjs.Game.size.x / 2,

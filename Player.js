@@ -201,6 +201,12 @@ Player.prototype.update = function (delta) {
 
         }
         break;
+      } else if (object.type === "market" && object.visible) {
+        if (this.boundingBox.intersects(object.doorHitbox)) {
+          powerupjs.Game.gameWorld.selling = true
+
+        }
+        break;
       }
     }
   }
