@@ -21,10 +21,10 @@ Building.prototype.update = function (delta) {
   powerupjs.SpriteGameObject.prototype.update.call(this, delta);
   var feild = this.parent;
   var player = feild.find(ID.player);
-  var switchPoint = this.position.y + 170; // Where the player changes layer
-
-  if (player !== null) {
-    if (player.position.y > switchPoint) {
+  var switchPoint = this.position.y + 90; // Where the player changes layer
+for (var i=0; i<feild.gameObjects.length; i++) {
+  if (feild.gameObjects[i].animated) {
+    if (feild.gameObjects[i].position.y > switchPoint) {
       this.layer = ID.layer_background;
     } else {
       this.layer = ID.layer_background_2;
@@ -32,5 +32,6 @@ Building.prototype.update = function (delta) {
     feild.gameObjects.sort(function (a, b) {
       return a.layer - b.layer;
     });
+  }
   }
 };

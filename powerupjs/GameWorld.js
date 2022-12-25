@@ -32,15 +32,16 @@ function GameWorld(layer) {
   this.inventory = new Inventory();
   this.inventory.visible = false;
   this.selling = false;
-
+  this.healthBar = new HealthBar()
+  this.toolMarker = new ToolMarker()
   this.interiors = new Array();
   this.currentTimeBubble = 'none'
   this.currentInteriorArea = "none";
   this.specialMode = "none";
   this.saveDate = Date.now();
-
+  this.health = 8
   this.cash = 0;
-
+  this.currentTool = 'none'
   this.loadInteriors();
 }
 
@@ -56,12 +57,15 @@ GameWorld.prototype.draw = function () {
       }
     }
   }
+  this.toolMarker.draw()
   this.inventory.draw();
 
   if (this.selling) {
     this.inventory.visible = true
     this.inventory.mode = 'selling'
   }
+
+  this.healthBar.draw()
 };
 
 GameWorld.prototype.loadInteriors = function () {
@@ -490,6 +494,22 @@ GameWorld.prototype.update = function (delta) {
   if (Date.now() > this.saveDate + 20000) {
     this.saveMachines();
     this.saveDate = Date.now();
+  }
+
+  this.healthBar.update(delta)
+  this.toolMarker.update(delta)
+
+  if (powerupjs.Keyboard.pressed(73)) {
+    this.toolMarker.sheetIndex--
+    if (this.toolMarker.sheetIndex < 0) {
+      this.toolMarker.sheetIndex = 1
+    }
+  }
+  if (powerupjs.Keyboard.pressed(80)) {
+    this.toolMarker.sheetIndex++
+    if (this.toolMarker.sheetIndex > 1) {
+      this.toolMarker.sheetIndex = 0
+    }
   }
 
   if (powerupjs.Keyboard.pressed(69) && this.map.mode === "playing" && !this.selling) {

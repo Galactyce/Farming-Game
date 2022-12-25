@@ -9,3 +9,4 @@ sellPricing.mozzerelacheese = 1300
 sellPricing.wool = 500
 sellPricing.yarn = 1000
 sellPricing.cloth = 2300
+sellPricing.wheat = 15

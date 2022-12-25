@@ -32,6 +32,12 @@ powerupjs.Game.loadAssets = function () {
       right: loadSprite("character_main_walk_right@7.png"),
       left: loadSprite("character_main_walk_left@7.png"),
     },
+    idle_sword: {
+      front: loadSprite("character_main_idle_front_sword.png"),
+      back: loadSprite("character_main_idle_back_sword.png"),
+      left: loadSprite("character_main_idle_left_sword.png"),
+      right: loadSprite("character_main_idle_right_sword.png"),
+    },
     tend: {
       front: loadSprite("character_main_tend_front@5.png"),
     },
@@ -85,7 +91,7 @@ powerupjs.Game.loadAssets = function () {
     backdrops: {
       summer: loadSprite("inventory_summer_backdrop.png"),
     },
-    selling: loadSprite("selling_grid.png")
+    selling: loadSprite("selling_grid.png"),
   };
 
   sprites.items = {
@@ -127,7 +133,7 @@ powerupjs.Game.loadAssets = function () {
     goatcheese: loadSprite("item_goatcheese.png"),
     mozzerelacheese: loadSprite("item_mozzerelacheese.png"),
     yarn: loadSprite("item_yarn.png"),
-    cloth: loadSprite("item_cloth.png")
+    cloth: loadSprite("item_cloth.png"),
   };
 
   sprites.fruits = {
@@ -202,7 +208,6 @@ powerupjs.Game.loadAssets = function () {
     barn: loadSprite("summer_building_barn.png"),
     barn2: loadSprite("summer_building_barn2.png"),
     market: loadSprite("summer_building_market.png"),
-
   };
 
   sprites.machines = {
@@ -224,20 +229,20 @@ powerupjs.Game.loadAssets = function () {
     },
     goat_cheese_press: {
       idle: loadSprite("cheese_press_idle.png"),
-      working: loadSprite("goat_cheese_press_working@2.png")
+      working: loadSprite("goat_cheese_press_working@2.png"),
     },
     mozzerela_cheese_press: {
       idle: loadSprite("cheese_press_idle.png"),
-      working: loadSprite("mozzerela_cheese_press_working@2.png")
+      working: loadSprite("mozzerela_cheese_press_working@2.png"),
     },
     spindle: {
-      idle: loadSprite('spindle_idle.png'),
-      working: loadSprite("spindle_working@8.png")
+      idle: loadSprite("spindle_idle.png"),
+      working: loadSprite("spindle_working@8.png"),
     },
     clothmaker: {
-      idle: loadSprite('clothmaker_idle.png'),
-      working: loadSprite("clothmaker_working@34.png")
-    }
+      idle: loadSprite("clothmaker_idle.png"),
+      working: loadSprite("clothmaker_working@34.png"),
+    },
   };
 
   sprites.animals = {
@@ -258,14 +263,16 @@ powerupjs.Game.loadAssets = function () {
       back: loadSprite("sheep_back_walk@4.png"),
       left: loadSprite("sheep_right_walk@4.png"),
       right: loadSprite("sheep_left_walk@4.png"),
-    }
+    },
   };
 
   sprites.require_bubbles = {
     milk: loadSprite("requires_milk_bubble.png"),
-    goatmilk: loadSprite("requires_goatmilk_bubble.png")
+    goatmilk: loadSprite("requires_goatmilk_bubble.png"),
+    wool: loadSprite("requires_wool_bubble.png"),
+    yarn: loadSprite("requires_yarn_bubble.png"),
 
-  }
+  };
 
   sprites.markers = {
     milk: loadSprite("milk_ready.png"),
@@ -276,13 +283,19 @@ powerupjs.Game.loadAssets = function () {
     goatmilk: loadSprite("goat_milk_ready.png"),
     goatcheese: loadSprite("goat_cheese_ready.png"),
     mozzerelacheese: loadSprite("mozzerela_cheese_ready.png"),
-    cloth: loadSprite("cloth_ready.png")
+    cloth: loadSprite("cloth_ready.png"),
   };
+
+  sprites.UI = {
+    health_bar: loadSprite("health_bar.png"),
+    health_markers: loadSprite("health_markers@8.png"),
+    equip_markers: loadSprite("equip_markers@2.png")
+
+  }
 
   sprites.interiors = {
     barn: loadSprite("barn_area.png"),
     barn2: loadSprite("barn_area.png"),
-
   };
 
   sprites.extras = {
@@ -291,6 +304,20 @@ powerupjs.Game.loadAssets = function () {
     planting_marker: loadSprite("crop_place.png"),
     timer_bubble: loadSprite("timer_bubble.png"),
     label: loadSprite("label.png"),
-    item_select: loadSprite("item_select.png")
+    item_select: loadSprite("item_select.png"),
+  };
+
+  sprites.enemies = {
+    green_slime: {
+      front_passive: loadSprite("green_slime_passive_front@5.png"),
+      back_passive: loadSprite("green_slime_passive_back@5.png"),
+      left_passive: loadSprite("green_slime_passive_left@5.png"),
+      right_passive: loadSprite("green_slime_passive_right@5.png"),
+      front_idle: loadSprite("green_slime_idle_front@2.png"),
+      back_idle: loadSprite("green_slime_idle_back@2.png"),
+      left_idle: loadSprite("green_slime_idle_left@2.png"),
+      right_idle: loadSprite("green_slime_idle_right@2.png"),
+
+    },
   };
 };

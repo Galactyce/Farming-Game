@@ -1,10 +1,15 @@
 function Player(area) {
   powerupjs.AnimatedGameObject.call(this, 1, ID.layer_background_1, ID.player);
   this.lastDirection = "front";
+  this.animated = true;
   this.loadAnimation(sprites.main_character["idle"].front, "idle_front", true);
   this.loadAnimation(sprites.main_character["idle"].back, "idle_back", true);
   this.loadAnimation(sprites.main_character["idle"].right, "idle_right", true);
   this.loadAnimation(sprites.main_character["idle"].left, "idle_left", true);
+  this.loadAnimation(sprites.main_character["idle_sword"].front, "sword_idle_front", true);
+  this.loadAnimation(sprites.main_character["idle_sword"].back, "sword_idle_back", true);
+  this.loadAnimation(sprites.main_character["idle_sword"].right, "sword_idle_right", true);
+  this.loadAnimation(sprites.main_character["idle_sword"].left, "sword_idle_left", true);
   this.mode = "walking";
   this.loadAnimation(
     sprites.main_character["run"].front,
@@ -80,7 +85,11 @@ Player.prototype.update = function (delta) {
     this.velocity.y === 0 &&
     this.mode === "walking"
   ) {
+    // if (powerupjs.Game.gameWorld.currentTool === 'none')
     this.playAnimation("idle_" + this.lastDirection);
+  //   else if (powerupjs.Game.gameWorld.currentTool === 'sword'){
+  //   this.playAnimation("sword_idle_" + this.lastDirection)
+  // }
   }
 
   var objects = powerupjs.Game.gameWorld.map.areas[
@@ -214,6 +223,7 @@ Player.prototype.update = function (delta) {
   var bounds = powerupjs.Game.gameWorld.map.areas[
     powerupjs.Game.gameWorld.map.currentAreaIndex
   ].find(ID.boundaries);
+  if (powerupjs.Game.gameWorld.currentInteriorArea === 'none') {
   for (var i = 0; i < bounds.gameObjects.length; i++) {
     // Boundary effects
     if (bounds.gameObjects[i] === undefined) continue;
@@ -235,7 +245,7 @@ Player.prototype.update = function (delta) {
       }
     }
   }
-
+  }
   var interior_bounds = powerupjs.Game.gameWorld.interiors[0].find(
     ID.interior_boundaries
   );
@@ -305,9 +315,14 @@ Player.prototype.update = function (delta) {
   }
 
   if (this.animationEnded()) {
+    // if (powerupjs.Game.gameWorld.currentTool === 'none')
     this.playAnimation("idle_" + this.lastDirection);
+  //   else if (powerupjs.Game.gameWorld.currentTool === 'sword'){
+  //   this.playAnimation("sword_idle_" + this.lastDirection)
+  // }  
   }
 
   powerupjs.Game.gameWorld.map.playerAnimation = this.lastDirection;
   powerupjs.Game.gameWorld.map.playerPosition = this.position.copy();
+
 };

@@ -44,22 +44,21 @@ Animal.prototype.update = function (delta) {
   
   
 
-  var feild = powerupjs.Game.gameWorld.interiors[this.area];
+  var feild = this.parent;
   var player = feild.find(ID.player);
-  var switchPoint = this.position.y - 10 // Where the player changes layer
-  if (player !== null) {
-    if (player.position.y > switchPoint) {
-      this.layer = ID.layer_background_1
-    }
-    else {
-      this.layer = ID.layer_background_3
-      
+   var switchPoint = this.position.y + 40; // Where the player changes layer
+for (var i=0; i<feild.gameObjects.length; i++) {
+  if (feild.gameObjects[i].animated !== null) {
+    if (feild.gameObjects[i].position.y > switchPoint) {
+      this.layer = ID.layer_background;
+    } else {
+      this.layer = ID.layer_background_2;
     }
     feild.gameObjects.sort(function (a, b) {
       return a.layer - b.layer;
     });
   }
-
+  }
 
   if (this.idle) this.sheetIndex = 0;
 

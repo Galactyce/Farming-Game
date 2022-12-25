@@ -33,24 +33,25 @@ NatureDecoration.prototype = Object.create(
 
 NatureDecoration.prototype.update = function (delta) {
   powerupjs.AnimatedGameObject.prototype.update.call(this, delta);
-  var feild = this.parent;
+ 
+ 
+
+ var feild = this.parent;
   var player = feild.find(ID.player);
   var switchPoint = this.position.y // Where the player changes layer
   if (this.spriteType === 'oak_tree' || this.spriteType === 'pine_tree') {
     switchPoint = this.position.y + 40 // only if its a tree
-  }
- 
-  if (player !== null) {
-    if (player.position.y > switchPoint) {
-      this.layer = ID.layer_background
-    }
-    else {
-      this.layer = ID.layer_background_2
-      
+  }for (var i=0; i<feild.gameObjects.length; i++) {
+  if (feild.gameObjects[i].animated) {
+    if (feild.gameObjects[i].position.y > switchPoint) {
+      this.layer = ID.layer_background;
+    } else {
+      this.layer = ID.layer_background_2;
     }
     feild.gameObjects.sort(function (a, b) {
       return a.layer - b.layer;
     });
+  }
   }
   this.fruits.update(delta)
 

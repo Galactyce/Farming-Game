@@ -39,7 +39,7 @@ function Map() {
   this.areas[14].find(ID.objects).add(barn2);
   this.areas[15].find(ID.objects).add(market);
 
-
+  
 
 }
 

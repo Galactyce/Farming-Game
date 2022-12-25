@@ -247,6 +247,8 @@ Inventory.prototype.update = function (delta) {
         thing = null;
       }
       this.visible = false;
+      this.open = false;
+
       powerupjs.Game.gameWorld.selling = false
       this.mode = 'items'
       this.reward = 0;
